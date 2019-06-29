@@ -2,9 +2,10 @@
 
   <el-container style="height: 900px; border: 1px solid #eee">
     <el-dialog
-      title="新建数据库连接"
       :visible.sync="dialogVisible"
-      width="30%" :before-close="handleClose">
+      :before-close="handleClose"
+      title="新建数据库连接"
+      width="30%">
       <el-form ref="connectionForm" :model="connectionForm" :rules="rules" label-width="180px">
         <el-row type="flex" justify="start">
           <el-col :span="20">
@@ -103,14 +104,13 @@
               </ul>
 
             </context-menu>-->
-            <easy-cm :list="rightClickMenu"></easy-cm>
-
 
             <el-submenu v-for="connection in connections" :index="connection.key" :key="connection.key">
               <template slot="title">
                 <i class="el-icon-setting"></i>
                 <!--<span @click="handleSelect(connection)">{{connection.key}}</span>-->
                 <span>{{connection.key}}</span>
+                <easy-cm :list="rightClickMenu" @ecmcb="deleteConnection(connection)"></easy-cm>
               </template>
               <el-menu-item v-for="table in connection.tables" :index="table" @click="handleClick(table)">
                 <i class="el-icon-rank"></i>
@@ -204,8 +204,9 @@
   </el-container>
 </template>
 <script>
-  import {setLocalStorage, getLocalStorage} from '@/utils/storage.js';
+  import {setLocalStorage, getLocalStorage, removeLocalStorage} from '@/utils/storage.js';
   import {doPost} from "../../utils/http";
+  import "../../utils/array"
   //import contextMenu from 'vue-context-menu'
 
   export default {
@@ -213,7 +214,7 @@
     data() {
       return {
         rightClickMenu: [{
-          text: 'Play Now',
+          text: '删除',
           icon: 'iconfont icon-bofang',  //选填 字体图标 class
           children: [] //选填
         }],
@@ -354,9 +355,20 @@
           encoding: 'UTF-8'
         };
 
-      this.loadConnection();
+      this.loadConnection()
     },
     methods: {
+      deleteConnection(connection) {
+        removeLocalStorage(connection.key)
+        let cons = JSON.parse(getLocalStorage('connectionsIndex'))
+        for (const obj of cons) {
+          if (obj.key === connection.key) {
+            setLocalStorage('connectionsIndex', JSON.stringify(cons))
+            break
+          }
+        }
+        this.loadConnection()
+      },
       popMenu(e) {
         //alert(1);
         let self = this;
@@ -456,8 +468,7 @@
         doPost(JSON.stringify(jsonString), '/code/generate')
           .then(res => {
             var path = res.data.data.path;
-            this.filePath = 'http://192.168.7.13:6020/'+ path
-            console.log(this.filePath)
+            this.filePath = 'http://192.168.7.13:6020/' + path
             this.$refs.download.click()
           })
       },
@@ -559,8 +570,8 @@
         done();
       },
       loadConnection() {
-        let indexInJson = JSON.parse(getLocalStorage('connectionsIndex'));
-        this.connections = indexInJson;
+        let indexInJson = JSON.parse(getLocalStorage('connectionsIndex'))
+        this.connections = indexInJson
 
       }
     }
