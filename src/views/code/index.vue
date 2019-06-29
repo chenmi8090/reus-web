@@ -363,6 +363,7 @@
         let cons = JSON.parse(getLocalStorage('connectionsIndex'))
         for (const obj of cons) {
           if (obj.key === connection.key) {
+            cons.remove(obj)
             setLocalStorage('connectionsIndex', JSON.stringify(cons))
             break
           }
