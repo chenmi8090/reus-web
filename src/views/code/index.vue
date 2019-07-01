@@ -197,7 +197,6 @@
         </el-card>
 
         <el-button type="success" @click="generateCode()">代码生成</el-button>
-        <a :download="fileName" :href="filePath" ref="download"></a>
         <el-button type="primary">确定</el-button>
       </el-form>
     </el-container>
@@ -420,20 +419,13 @@
         this.loadConnection();
       },
       generateCode() {
+        console.log(this.connectionForm)
         let jsonString = {
           tableName: this.form.tableName,
           encoding: 'utf-8',
           mapperName: this.form.mapper.name,
           primaryKey: this.form.entity.id,
-          dataSource: {
-            databaseType: this.connectionForm.databaseType,
-            hostName: this.connectionForm.hostName,
-            port: this.connectionForm.port,
-            userName: this.connectionForm.userName,
-            password: this.connectionForm.password,
-            database: this.connectionForm.database,
-            encoding: this.connectionForm.encoding
-          },
+          dataSource: this.connectionForm,
           controller: {
             name: this.form.controller.name,
             packageName: this.form.controller.packageName,
@@ -465,12 +457,11 @@
             isGenerate: this.form.mapper.isGenerate
           }
         }
-        console.log(this.hostName)
+        console.log(this.connectionForm.hostName)
         doPost(JSON.stringify(jsonString), '/code/generate')
           .then(res => {
             var path = res.data.data.path;
-            this.filePath = 'http://192.168.7.13:6020/' + path
-            this.$refs.download.click()
+            location.href = 'http://192.168.7.13:6020/'+path;
           })
       },
       handleKey(key) {
@@ -533,7 +524,7 @@
                 that.connections[i].tables = res.data.data;
               }
             }
-            //console.log(that.connections);
+           setLocalStorage('connectionsIndex', JSON.stringify(that.connections))
 
           });
 
