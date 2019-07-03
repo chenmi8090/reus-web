@@ -6,24 +6,23 @@
       :before-close="handleClose"
       title="新建数据库连接"
       width="30%">
-      <el-form ref="connectionForm" :model="connectionForm" :rules="rules" label-width="180px">
+      <el-form ref="saveForm" :model="saveForm" :rules="rules" label-width="180px">
         <el-row type="flex" justify="start">
           <el-col :span="20">
             <el-form-item label="保存名称" prop="connectionName">
-              <el-input v-model="connectionForm.connectionName" size="mini"></el-input>
+              <el-input v-model="saveForm.connectionName" size="mini"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row type="flex" justify="start">
           <el-col :span="20">
             <el-form-item label="数据库类型" prop="databaseType">
-              <el-select v-model="connectionForm.databaseType" placeholder="请选择" size="mini">
+              <el-select v-model="saveForm.databaseType" placeholder="请选择" size="mini">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.label">
-                </el-option>
+                  :value="item.label"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -31,57 +30,60 @@
         <el-row type="flex" justify="start">
           <el-col :span="20">
             <el-form-item label="主机名/IP地址" prop="hostName">
-              <el-input name="hostName" v-model="connectionForm.hostName" size="mini"></el-input>
+              <el-input v-model="saveForm.hostName" name="hostName" size="mini"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row type="flex" justify="start">
           <el-col :span="11">
             <el-form-item label="端口号" prop="port">
-              <el-input name="port" v-model="connectionForm.port" size="mini"></el-input>
+              <el-input v-model="saveForm.port" name="port" size="mini"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row type="flex" justify="start">
           <el-col :span="17">
             <el-form-item label="用户名" prop="userName">
-              <el-input name="userName" v-model="connectionForm.userName" size="mini"></el-input>
+              <el-input v-model="saveForm.userName" name="userName" size="mini"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row type="flex" justify="start">
           <el-col :span="17">
             <el-form-item label="密码" prop="password">
-              <el-input name="password" v-model="connectionForm.password" auto-complete="new-password" type="password"
-                        size="mini"></el-input>
+              <el-input
+                v-model="saveForm.password"
+                name="password"
+                auto-complete="new-password"
+                type="text"
+                size="mini"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row type="flex" justify="start">
           <el-col :span="17">
             <el-form-item label="Schema/数据库" prop="database">
-              <el-input name="database" v-model="connectionForm.database" size="mini"></el-input>
+              <el-input v-model="saveForm.database" name="database" size="mini"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row type="flex" justify="start">
           <el-col :span="17">
             <el-form-item label="编码" prop="encoding">
-              <el-select name="encoding" v-model="connectionForm.encoding" placeholder="请选择" size="mini">
+              <el-select v-model="saveForm.encoding" name="encoding" placeholder="请选择" size="mini">
                 <el-option
                   v-for="item in optionsEncoding"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.label">
-                </el-option>
+                  :value="item.label"/>
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="closeDialogNewConnection('connectionForm')">取 消</el-button>
-          <el-button type="primary" @click="saveNewConnection('connectionForm')">确 定</el-button>
+        <el-button @click="closeDialogNewConnection('saveForm')">取 消</el-button>
+        <el-button type="primary" @click="saveNewConnection('saveForm')">确 定</el-button>
       </span>
     </el-dialog>
     <el-aside width="500px">
@@ -93,7 +95,8 @@
           <el-menu
             default-active="2"
             class="el-menu-vertical-demo"
-            @open="handleSelect" @contextmenu.prevent.native="$easycm($event,$root)">
+            @open="handleSelect"
+            @contextmenu.prevent.native="$easycm($event,$root)">
             <!-- <right-menu :pop-items="popItems" :mouse="mousePosition" @ListItemClick="list_item_click">
              </right-menu>-->
             <!--<context-menu id="context-menu" ref="ctxMenu">
@@ -107,14 +110,14 @@
 
             <el-submenu v-for="connection in connections" :index="connection.key" :key="connection.key">
               <template slot="title">
-                <i class="el-icon-setting"></i>
+                <i class="el-icon-setting"/>
                 <!--<span @click="handleSelect(connection)">{{connection.key}}</span>-->
-                <span>{{connection.key}}</span>
-                <easy-cm :list="rightClickMenu" @ecmcb="deleteConnection(connection)"></easy-cm>
+                <span>{{ connection.key }}</span>
+                <easy-cm :list="rightClickMenu" @ecmcb="deleteConnection(connection)"/>
               </template>
-              <el-menu-item v-for="table in connection.tables" :index="table" @click="handleClick(table)">
-                <i class="el-icon-rank"></i>
-                <span slot="title">{{table}}</span>
+              <el-menu-item v-for="table in connection.tables" :index="table" @click="handleClick(table,connection)">
+                <i class="el-icon-rank"/>
+                <span slot="title">{{ table }}</span>
               </el-menu-item>
             </el-submenu>
 
@@ -127,12 +130,12 @@
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>Controller</span>
-            <el-button style="float: right; padding: 3px 0" type="text"></el-button>
+            <el-button style="float: right; padding: 3px 0" type="text"/>
           </div>
           <el-row>
             <el-form-item label="Controller类包名">
               <el-col :span="12">
-                <el-input v-model="form.controller.packageName"></el-input>
+                <el-input v-model="form.controller.packageName"/>
               </el-col>
             </el-form-item>
           </el-row>
@@ -140,12 +143,12 @@
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>Service</span>
-            <el-button style="float: right; padding: 3px 0" type="text"></el-button>
+            <el-button style="float: right; padding: 3px 0" type="text"/>
           </div>
           <el-row>
             <el-form-item label="Service类包名">
               <el-col :span="12">
-                <el-input v-model="form.service.packageName"></el-input>
+                <el-input v-model="form.service.packageName"/>
               </el-col>
             </el-form-item>
           </el-row>
@@ -153,44 +156,42 @@
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>Mapper</span>
-            <el-button style="float: right; padding: 3px 0" type="text"></el-button>
+            <el-button style="float: right; padding: 3px 0" type="text"/>
           </div>
           <el-row>
             <el-form-item label="表名">
               <el-col :span="6">
-                <el-input v-model="form.tableName" :disabled="true"></el-input>
+                <el-input v-model="form.tableName" :disabled="true"/>
               </el-col>
             </el-form-item>
             <el-form-item label="主键（选填）">
               <el-col :span="6">
-                <el-input v-model="form.entity.id"></el-input>
+                <el-input v-model="form.entity.id"/>
               </el-col>
             </el-form-item>
             <el-form-item label="Entity类包名">
               <el-col :span="12">
-                <el-input v-model="form.entity.packageName"></el-input>
+                <el-input v-model="form.entity.packageName"/>
               </el-col>
             </el-form-item>
             <el-form-item label="Mapper类包名">
               <el-col :span="12">
-                <el-input v-model="form.mapper.packageName"></el-input>
+                <el-input v-model="form.mapper.packageName"/>
               </el-col>
             </el-form-item>
             <el-form-item label="Mapper类名（自定义）">
               <el-col :span="12">
-                <el-input v-model="form.mapper.name"></el-input>
+                <el-input v-model="form.mapper.name"/>
               </el-col>
             </el-form-item>
             <el-form-item>
               <el-col :span="12">
                 <el-switch
                   v-model="form.isPaging"
-                  active-text="分页">
-                </el-switch>
+                  active-text="分页"/>
                 <el-switch
                   v-model="form.isPaging"
-                  active-text="生成注释">
-                </el-switch>
+                  active-text="生成注释"/>
               </el-col>
             </el-form-item>
           </el-row>
@@ -203,145 +204,156 @@
   </el-container>
 </template>
 <script>
-  import {setLocalStorage, getLocalStorage, removeLocalStorage} from '@/utils/storage.js';
-  import {doPost} from "../../utils/http";
-  import "../../utils/array"
-  //import contextMenu from 'vue-context-menu'
+import { setLocalStorage, getLocalStorage, removeLocalStorage } from '@/utils/storage.js'
+import { doPost } from '../../utils/http'
+import '../../utils/array'
+// import contextMenu from 'vue-context-menu'
 
-  export default {
-    //components: { contextMenu },
-    data() {
-      return {
-        rightClickMenu: [{
-          text: '删除',
-          icon: 'iconfont icon-bofang',  //选填 字体图标 class
-          children: [] //选填
-        }],
-        connections: [],
-        //tables: [],
-        optionsEncoding: [
-          {
-            value: '1',
-            label: 'utf-8'
-          },
-          {
-            value: '2',
-            label: 'gb2312'
-          },
-          {
-            value: '3',
-            label: 'gbk'
-          }
-        ],
-        fileName: '',
-        options: [{
+export default {
+  // components: { contextMenu },
+  data() {
+    return {
+      rightClickMenu: [{
+        text: '删除',
+        icon: 'iconfont icon-bofang', // 选填 字体图标 class
+        children: [] // 选填
+      }],
+      connections: [],
+      // tables: [],
+      optionsEncoding: [
+        {
           value: '1',
-          label: 'MySQL'
-        }, {
+          label: 'utf-8'
+        },
+        {
           value: '2',
-          label: 'MySQL_v8'
-        }, {
+          label: 'gb2312'
+        },
+        {
           value: '3',
-          label: 'Oracle'
-        }, {
-          value: '4',
-          label: 'IBM DB2'
-        }, {
-          value: '5',
-          label: 'PostgreSQL'
-        }, {
-          value: '6',
-          label: 'SQL_Server'
-        }, {
-          value: '7',
-          label: 'Sqllite'
-        }],
-        value: '',
-        connectionForm: {
-          index: -1,
-          connectionName: '',
-          databaseType: '',
-          hostName: '',
-          port: '',
-          userName: '',
-          password: '',
-          database: '',
-          encoding: ''
-        },
-        form: {
-          isPaging: true,
-          tableName: 't_device',
-          encoding: '',
-          controller: {
-            name: 'DeviceController',
-            packageName: 'com.minivision.sms.agw.gateway.controller.device',
-            path: 'src/main/java',
-            isGenerate: true
-          },
-          service: {
-            name: 'DeviceService',
-            packageName: 'com.minivision.sms.agw.gateway.service.device',
-            path: 'src/main/java',
-            isGenerate: true
-          },
-          dto: {
-            name: 'Device',
-            packageName: 'com.minivision.sms.api.domain.dto.device',
-            path: 'src/main/java',
-            isGenerate: true
-          },
-          entity: {
-            id: 'device_id',
-            name: 'Device',
-            packageName: 'com.minivision.sms.main.domain.entity.device',
-            path: 'src/main/java',
-            isGenerate: true
-          },
-          mapper: {
-            name: 'DeviceMapper',
-            packageName: 'com.minivision.sms.main.domain.mapper.device',
-            path: 'src/main/java',
-            isGenerate: true
-          },
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        },
-        dialogVisible: false,
-        aaa: false,
-        filePath: '',
-        rules: {
-          connectionName: [
-            {required: true, message: '请输入名称', trigger: 'blur'}
-          ],
-          databaseType: [
-            {required: true, message: '请选择数据类型', trigger: 'blur'}
-          ],
-          hostName: [
-            {required: true, message: '请输入主机名/IP地址', trigger: 'blur'}
-          ],
-          port: [
-            {required: true, message: '请输入端口', trigger: 'blur'}
-          ],
-          userName: [
-            {required: true, message: '请输入用户名', trigger: 'blur'}
-          ],
-          password: [
-            {required: true, message: '请输入密码', trigger: 'blur'}
-          ],
-          database: [
-            {required: true, message: '请输入Schema/数据库', trigger: 'blur'}
-          ]
+          label: 'gbk'
         }
+      ],
+      fileName: '',
+      options: [{
+        value: '1',
+        label: 'MySQL'
+      }, {
+        value: '2',
+        label: 'MySQL_v8'
+      }, {
+        value: '3',
+        label: 'Oracle'
+      }, {
+        value: '4',
+        label: 'IBM DB2'
+      }, {
+        value: '5',
+        label: 'PostgreSQL'
+      }, {
+        value: '6',
+        label: 'SQL_Server'
+      }, {
+        value: '7',
+        label: 'Sqllite'
+      }],
+      value: '',
+      saveForm: {
+        index: -1,
+        connectionName: '',
+        databaseType: '',
+        hostName: '',
+        port: '',
+        userName: '',
+        password: '',
+        database: '',
+        encoding: ''
+      },
+      connectionForm: {
+        index: -1,
+        connectionName: '',
+        databaseType: '',
+        hostName: '',
+        port: '',
+        userName: '',
+        password: '',
+        database: '',
+        encoding: ''
+      },
+      form: {
+        isPaging: true,
+        tableName: 't_device',
+        encoding: '',
+        controller: {
+          name: 'DeviceController',
+          packageName: 'com.minivision.sms.agw.gateway.controller.device',
+          path: 'src/main/java',
+          isGenerate: true
+        },
+        service: {
+          name: 'DeviceService',
+          packageName: 'com.minivision.sms.agw.gateway.service.device',
+          path: 'src/main/java',
+          isGenerate: true
+        },
+        dto: {
+          name: 'Device',
+          packageName: 'com.minivision.sms.api.domain.dto.device',
+          path: 'src/main/java',
+          isGenerate: true
+        },
+        entity: {
+          id: 'device_id',
+          name: 'Device',
+          packageName: 'com.minivision.sms.main.domain.entity.device',
+          path: 'src/main/java',
+          isGenerate: true
+        },
+        mapper: {
+          name: 'DeviceMapper',
+          packageName: 'com.minivision.sms.main.domain.mapper.device',
+          path: 'src/main/java',
+          isGenerate: true
+        },
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
+      },
+      dialogVisible: false,
+      aaa: false,
+      filePath: '',
+      rules: {
+        connectionName: [
+          { required: true, message: '请输入名称', trigger: 'blur' }
+        ],
+        databaseType: [
+          { required: true, message: '请选择数据类型', trigger: 'blur' }
+        ],
+        hostName: [
+          { required: true, message: '请输入主机名/IP地址', trigger: 'blur' }
+        ],
+        port: [
+          { required: true, message: '请输入端口', trigger: 'blur' }
+        ],
+        userName: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ],
+        database: [
+          { required: true, message: '请输入Schema/数据库', trigger: 'blur' }
+        ]
       }
-    },
-    created() {
-      this.connectionForm =
+    }
+  },
+  created() {
+    this.connectionForm =
         {
           index: -1,
           connectionName: 'sms_cloud_baseline',
@@ -352,222 +364,228 @@
           password: 'xskj2017',
           database: 'sms_prod',
           encoding: 'UTF-8'
-        };
+        }
 
+    this.saveForm = {
+      index: -1,
+      connectionName: '',
+      databaseType: '',
+      hostName: '',
+      port: -1,
+      userName: '',
+      password: '',
+      database: '',
+      encoding: ''
+    }
+
+    this.loadConnection()
+  },
+  methods: {
+    deleteConnection(connection) {
+      removeLocalStorage(connection.key)
+      const cons = JSON.parse(getLocalStorage('connectionsIndex'))
+      for (const obj of cons) {
+        if (obj.key === connection.key) {
+          cons.remove(obj)
+          setLocalStorage('connectionsIndex', JSON.stringify(cons))
+          break
+        }
+      }
       this.loadConnection()
     },
-    methods: {
-      deleteConnection(connection) {
-        removeLocalStorage(connection.key)
-        let cons = JSON.parse(getLocalStorage('connectionsIndex'))
-        for (const obj of cons) {
-          if (obj.key === connection.key) {
-            cons.remove(obj)
-            setLocalStorage('connectionsIndex', JSON.stringify(cons))
-            break
-          }
+    popMenu(e) {
+      // alert(1);
+      const self = this
+      e.preventDefault()
+      // alert(e.button === 2)
+      if (e.button === 2) {
+        const x = e.layerX
+        const y = e.layerY
+        self.mousePosition = [x, y]
+      } else if (e.button === 0) {
+        self.mousePosition = ['close']
+      }
+    },
+    list_item_click(it) {
+      switch (it) {
+        case 0:
+          alert('第一项被点击')
+          break
+        case 1:
+          alert('第二项被点击')
+          break
+      }
+    },
+    rightShow() {
+      alert('right-click')
+    },
+    loadDatabase(connection) {
+      alert(connection)
+    },
+    openDialogNewConnection() {
+      this.saveForm =
+        {
+          index: -1,
+          connectionName: '',
+          databaseType: '',
+          hostName: '',
+          port: '',
+          userName: '',
+          password: '',
+          database: '',
+          encoding: 'UTF-8'
         }
-        this.loadConnection()
-      },
-      popMenu(e) {
-        //alert(1);
-        let self = this;
-        e.preventDefault();
-        //alert(e.button === 2)
-        if (e.button === 2) {
-          let x = e.layerX;
-          let y = e.layerY;
-          self.mousePosition = [x, y];
-        } else if (e.button === 0) {
-          self.mousePosition = ['close'];
+      this.dialogVisible = true
+    },
+    closeDialogNewConnection(form) {
+      this.dialogVisible = false
+      this.$refs[form].resetFields()
+      this.loadConnection()
+    },
+    generateCode() {
+      const jsonString = {
+        tableName: this.form.tableName,
+        encoding: 'utf-8',
+        mapperName: this.form.mapper.name,
+        primaryKey: this.form.entity.id,
+        dataSource: this.connectionForm,
+        controller: {
+          name: this.form.controller.name,
+          packageName: this.form.controller.packageName,
+          path: this.form.controller.path,
+          isGenerate: this.form.controller.isGenerate
+        },
+        service: {
+          name: this.form.service.name,
+          packageName: this.form.service.packageName,
+          path: this.form.service.path,
+          isGenerate: this.form.service.isGenerate
+        },
+        dto: {
+          name: this.form.dto.name,
+          packageName: this.form.dto.packageName,
+          path: this.form.dto.path,
+          isGenerate: this.form.dto.isGenerate
+        },
+        entity: {
+          name: this.form.entity.name,
+          packageName: this.form.entity.packageName,
+          path: this.form.entity.path,
+          isGenerate: this.form.entity.isGenerate
+        },
+        mapper: {
+          name: this.form.mapper.name,
+          packageName: this.form.mapper.packageName,
+          path: this.form.mapper.path,
+          isGenerate: this.form.mapper.isGenerate
         }
-      },
-      list_item_click(it) {
-        switch (it) {
-          case 0:
-            alert('第一项被点击');
-            break;
-          case 1:
-            alert('第二项被点击');
-            break;
-        }
-      },
-      rightShow() {
-        alert('right-click')
-      },
-      loadDatabase(connection) {
-        alert(connection);
-      },
-      openDialogNewConnection() {
-        this.connectionForm =
-          {
-            index: -1,
-            connectionName: '',
-            databaseType: '',
-            hostName: '',
-            port: '',
-            userName: '',
-            password: '',
-            database: '',
-            encoding: 'UTF-8'
-          };
-        this.dialogVisible = true;
-      },
-      closeDialogNewConnection(form) {
-        this.dialogVisible = false;
-        this.$refs[form].resetFields();
-        this.loadConnection();
-      },
-      generateCode() {
-        console.log(this.connectionForm)
-        let jsonString = {
-          tableName: this.form.tableName,
-          encoding: 'utf-8',
-          mapperName: this.form.mapper.name,
-          primaryKey: this.form.entity.id,
-          dataSource: this.connectionForm,
-          controller: {
-            name: this.form.controller.name,
-            packageName: this.form.controller.packageName,
-            path: this.form.controller.path,
-            isGenerate: this.form.controller.isGenerate
-          },
-          service: {
-            name: this.form.service.name,
-            packageName: this.form.service.packageName,
-            path: this.form.service.path,
-            isGenerate: this.form.service.isGenerate
-          },
-          dto: {
-            name: this.form.dto.name,
-            packageName: this.form.dto.packageName,
-            path: this.form.dto.path,
-            isGenerate: this.form.dto.isGenerate
-          },
-          entity: {
-            name: this.form.entity.name,
-            packageName: this.form.entity.packageName,
-            path: this.form.entity.path,
-            isGenerate: this.form.entity.isGenerate
-          },
-          mapper: {
-            name: this.form.mapper.name,
-            packageName: this.form.mapper.packageName,
-            path: this.form.mapper.path,
-            isGenerate: this.form.mapper.isGenerate
-          }
-        }
-        console.log(this.connectionForm.hostName)
-        doPost(JSON.stringify(jsonString), '/code/generate')
-          .then(res => {
-            var path = res.data.data.path;
-            location.href = 'http://192.168.7.13:6020/'+path;
-          })
-      },
-      handleKey(key) {
-        if (getLocalStorage(key) == null) {
-          if (getLocalStorage('connectionsIndex') == null) {
-            setLocalStorage('connectionsIndex', JSON.stringify([{'key': key, 'index': 0}]))
-          } else {
-            let indexInJson = JSON.parse(getLocalStorage('connectionsIndex'));
-            /* console.log("a" + indexInJson);
+      }
+      console.log(this.connectionForm.hostName)
+      doPost(JSON.stringify(jsonString), '/code/generate')
+        .then(res => {
+          var path = res.data.data.path
+          location.href = 'http://192.168.7.13:6020/' + path
+        })
+    },
+    handleKey(key) {
+      if (getLocalStorage(key) == null) {
+        if (getLocalStorage('connectionsIndex') == null) {
+          setLocalStorage('connectionsIndex', JSON.stringify([{ 'key': key, 'index': 0 }]))
+        } else {
+          const indexInJson = JSON.parse(getLocalStorage('connectionsIndex'))
+          /* console.log("a" + indexInJson);
              for (var connection in indexInJson) {
                temp.push({'key': connection.key});
              }*/
-            let idx = indexInJson.length;
-            indexInJson.push({'key': key, 'index': idx, 'tables': []});
-            setLocalStorage('connectionsIndex', JSON.stringify(indexInJson));
-            return idx;
-          }
+          const idx = indexInJson.length
+          indexInJson.push({ 'key': key, 'index': idx, 'tables': [] })
+          setLocalStorage('connectionsIndex', JSON.stringify(indexInJson))
+          return idx
         }
-      },
-      saveNewConnection(form) {
-        //let key = this.connectionForm.hostName + ":" + this.connectionForm.port + "@" + this.connectionForm.database;
+      }
+    },
+    saveNewConnection(form) {
+      // let key = this.connectionForm.hostName + ":" + this.connectionForm.port + "@" + this.connectionForm.database;
 
-        this.$refs[form].validate((valid) => {
-          if (valid) {
-            let key = this.connectionForm.connectionName;
-            let idx = this.handleKey(key);
-            if (getLocalStorage(key) == null) {
-              this.connectionForm.index = idx;
-              setLocalStorage(key, JSON.stringify(this.connectionForm));
-              this.dialogVisible = false;
-              this.$refs[form].resetFields();
-              this.loadConnection();
-            } else {
-              this.$message({
-                message: '该名称已经存在',
-                type: 'warning'
-              });
-            }
+      this.$refs[form].validate((valid) => {
+        if (valid) {
+          const key = this.saveForm.connectionName
+          const idx = this.handleKey(key)
+          if (getLocalStorage(key) == null) {
+            this.saveForm.index = idx
+            setLocalStorage(key, JSON.stringify(this.saveForm))
+            this.dialogVisible = false
+            this.$refs[form].resetFields()
+            this.loadConnection()
           } else {
-            console.log('error submit!!');
-            return false;
+            this.$message({
+              message: '该名称已经存在',
+              type: 'warning'
+            })
           }
-        });
-
-      },
-      handleOpen(key, keyPath) {
-        //doPost
-      },
-      handleSelect(connection, keyPath) {
-        let that = this;
-        //alert(1);
-        //console.log(this.connections);
-        doPost(getLocalStorage(connection), "/database/connect")
-          .then(res => {
-            //this.tables = res.data.data;
-            //alert(that.connections.length);
-            console.log(that.connections)
-            for (let i = 0; i < that.connections.length; i++) {
-              if (that.connections[i].key === connection) {
-                that.connections[i].tables = res.data.data;
-              }
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    handleOpen(key, keyPath) {
+      // doPost
+    },
+    handleSelect(connection, keyPath) {
+      const that = this
+      // alert(1);
+      // console.log(this.connections);
+      doPost(getLocalStorage(connection), '/database/connect')
+        .then(res => {
+          // this.tables = res.data.data;
+          // alert(that.connections.length);
+          for (let i = 0; i < that.connections.length; i++) {
+            if (that.connections[i].key === connection) {
+              that.connections[i].tables = res.data.data
             }
-           setLocalStorage('connectionsIndex', JSON.stringify(that.connections))
-
-          });
-
-      },
-      handleClick(tableName) {
-        let json = {"tableName": tableName}
-        //alert('click')
-        let that = this;
-        doPost(json, "/code/getPackageAndClass")
-          .then(res => {
-            let response = res.data.data;
-            that.form.controller = response.controller;
-            that.form.mapper = response.mapper;
-            that.form.service = response.service;
-            that.form.dto = response.dto;
-            that.form.entity = response.entity;
-            that.form.tableName = response.tableName;
-            //alert(res.data.data);
-          });
-      },
-      /* handleClose(key, keyPath) {
+          }
+          setLocalStorage('connectionsIndex', JSON.stringify(that.connections))
+        })
+    },
+    handleClick(tableName, connection) {
+      const json = { 'tableName': tableName }
+      const that = this
+      doPost(json, '/code/getPackageAndClass')
+        .then(res => {
+          const response = res.data.data
+          that.form.controller = response.controller
+          that.form.mapper = response.mapper
+          that.form.service = response.service
+          that.form.dto = response.dto
+          that.form.entity = response.entity
+          that.form.tableName = response.tableName
+          this.connectionForm = JSON.parse(getLocalStorage(connection.key))
+          // alert(res.data.data);
+        })
+    },
+    /* handleClose(key, keyPath) {
          console.log(key, keyPath);
        },*/
-      onSubmit() {
-        console.log('submit!');
-      },
-      handleClose(done) {
-        /* this.$confirm('确认关闭？')
+    onSubmit() {
+      console.log('submit!')
+    },
+    handleClose(done) {
+      /* this.$confirm('确认关闭？')
            .then(_ => {
              done();
            })
            .catch(_ => {
            });*/
-        this.loadConnection();
-        done();
-      },
-      loadConnection() {
-        let indexInJson = JSON.parse(getLocalStorage('connectionsIndex'))
-        this.connections = indexInJson
-
-      }
+      this.loadConnection()
+      done()
+    },
+    loadConnection() {
+      const indexInJson = JSON.parse(getLocalStorage('connectionsIndex'))
+      this.connections = indexInJson
     }
   }
+}
 </script>
 <style>
   .easy-ul li {
