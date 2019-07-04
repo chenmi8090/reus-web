@@ -1,6 +1,6 @@
 <template>
 
-  <el-container style="height: 900px; border: 1px solid #eee">
+  <el-container style="min-height: 900px; border: 1px solid #eee;">
     <el-dialog
       :visible.sync="dialogVisible"
       :before-close="handleClose"
@@ -157,6 +157,45 @@
             <el-form-item label="Service类包名">
               <el-col :span="12">
                 <el-input v-model="form.service.packageName"/>
+              </el-col>
+            </el-form-item>
+          </el-row>
+        </el-card>
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>MainService</span>
+            <el-button style="float: right; padding: 3px 0" type="text"/>
+          </div>
+          <el-row>
+            <el-form-item label="MainService类包名">
+              <el-col :span="12">
+                <el-input v-model="form.mainService.packageName"/>
+              </el-col>
+            </el-form-item>
+          </el-row>
+        </el-card>
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>Facade</span>
+            <el-button style="float: right; padding: 3px 0" type="text"/>
+          </div>
+          <el-row>
+            <el-form-item label="Facade类包名">
+              <el-col :span="12">
+                <el-input v-model="form.facade.packageName"/>
+              </el-col>
+            </el-form-item>
+          </el-row>
+        </el-card>
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>Dto</span>
+            <el-button style="float: right; padding: 3px 0" type="text"/>
+          </div>
+          <el-row>
+            <el-form-item label="Dto类包名">
+              <el-col :span="12">
+                <el-input v-model="form.dto.packageName"/>
               </el-col>
             </el-form-item>
           </el-row>
@@ -324,6 +363,18 @@ export default {
           path: 'src/main/java',
           isGenerate: true
         },
+        facade: {
+          name: 'DeviceFacade',
+          packageName: 'com.minivision.sms.api.domain.facade.device',
+          path: 'src/main/java',
+          isGenerate: true
+        },
+        mainService: {
+          name: 'DeviceService',
+          packageName: 'com.minivision.sms.main.domain.service.device',
+          path: 'src/main/java',
+          isGenerate: true
+        },
         name: '',
         region: '',
         date1: '',
@@ -487,6 +538,18 @@ export default {
           packageName: this.form.mapper.packageName,
           path: this.form.mapper.path,
           isGenerate: this.form.mapper.isGenerate
+        },
+        facade: {
+          name: this.form.facade.name,
+          packageName: this.form.facade.packageName,
+          path: this.form.facade.path,
+          isGenerate: this.form.facade.isGenerate
+        },
+        mainService: {
+          name: this.form.mainService.name,
+          packageName: this.form.mainService.packageName,
+          path: this.form.mainService.path,
+          isGenerate: this.form.mainService.isGenerate
         }
       }
       console.log(this.connectionForm.hostName)
