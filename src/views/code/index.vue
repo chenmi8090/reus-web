@@ -623,6 +623,8 @@ export default {
           that.form.dto = response.dto
           that.form.entity = response.entity
           that.form.tableName = response.tableName
+          that.form.mainService = response.mainService
+          that.form.facade = response.facade
           this.connectionForm = JSON.parse(getLocalStorage(connection.key))
           // alert(res.data.data);
         })
