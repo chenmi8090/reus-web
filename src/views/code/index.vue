@@ -89,6 +89,14 @@
     <el-aside width="500px">
       <el-button type="primary" icon="el-icon-menu" size="medium" @click="openDialogNewConnection">添加连接</el-button>
       <el-button type="primary" icon="el-icon-tickets" size="medium">配置</el-button>
+      <el-tooltip
+        class="item"
+        effect="dark"
+        placement="top-start"
+        style="vertical-align: middle; width: 1em; height: 1em; margin-left: 6em; margin-top: 1em;  white-space: pre-wrap;">
+        <div slot="content"> 操作步骤：<br> 1.添加连接，指定对应的数据源 <br> 2.选择对应连接，加载该数据源下的所有表记录 <br> 3.双击表结构，点击代码生成</div>
+        <svg-icon icon-class="tip"/>
+      </el-tooltip>
       <el-row class="tac">
         <el-col :span="18">
           <!-- <h5>默认颜色</h5>-->
@@ -252,6 +260,7 @@ export default {
   // components: { contextMenu },
   data() {
     return {
+      tip: '操作步骤：1.添加连接，指定对应的数据源 <br/> 2.选择对应连接，加载该数据源下的所有表记录 <br/> 3.双击表结构，点击代码生成',
       rightClickMenu: [{
         text: '删除',
         icon: 'iconfont icon-bofang', // 选填 字体图标 class
@@ -475,17 +484,17 @@ export default {
     },
     openDialogNewConnection() {
       this.saveForm =
-        {
-          index: -1,
-          connectionName: '',
-          databaseType: '',
-          hostName: '',
-          port: '',
-          userName: '',
-          password: '',
-          database: '',
-          encoding: 'UTF-8'
-        }
+          {
+            index: -1,
+            connectionName: '',
+            databaseType: '',
+            hostName: '',
+            port: '',
+            userName: '',
+            password: '',
+            database: '',
+            encoding: 'UTF-8'
+          }
       this.dialogVisible = true
     },
     closeDialogNewConnection(form) {
@@ -557,9 +566,9 @@ export default {
         } else {
           const indexInJson = JSON.parse(getLocalStorage('connectionsIndex'))
           /* console.log("a" + indexInJson);
-             for (var connection in indexInJson) {
-               temp.push({'key': connection.key});
-             }*/
+                 for (var connection in indexInJson) {
+                   temp.push({'key': connection.key});
+                 }*/
           const idx = indexInJson.length
           indexInJson.push({ 'key': key, 'index': idx, 'tables': [] })
           setLocalStorage('connectionsIndex', JSON.stringify(indexInJson))
@@ -630,18 +639,18 @@ export default {
         })
     },
     /* handleClose(key, keyPath) {
-         console.log(key, keyPath);
-       },*/
+             console.log(key, keyPath);
+           },*/
     onSubmit() {
       console.log('submit!')
     },
     handleClose(done) {
       /* this.$confirm('确认关闭？')
-           .then(_ => {
-             done();
-           })
-           .catch(_ => {
-           });*/
+               .then(_ => {
+                 done();
+               })
+               .catch(_ => {
+               });*/
       this.loadConnection()
       done()
     },
@@ -653,6 +662,15 @@ export default {
 }
 </script>
 <style>
+
+  .tooltip {
+    vertical-align: middle;
+    width: 1em;
+    height: 1em;
+    margin-left: 6em;
+    margin-top: 1em
+  }
+
   .easy-ul li {
     background-color: #df5000;
     color: #ffffff;
