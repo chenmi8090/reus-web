@@ -135,116 +135,176 @@
     </el-aside>
     <el-container>
       <el-form ref="form" :model="form" label-width="180px">
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>Controller</span>
-            <el-button style="float: right; padding: 3px 0" type="text"/>
-          </div>
-          <el-row>
-            <el-form-item label="Controller类包名">
-              <el-col :span="12">
-                <el-input v-model="form.controller.packageName"/>
-              </el-col>
-            </el-form-item>
-          </el-row>
-        </el-card>
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>Service</span>
-            <el-button style="float: right; padding: 3px 0" type="text"/>
-          </div>
-          <el-row>
-            <el-form-item label="Service类包名">
-              <el-col :span="12">
-                <el-input v-model="form.service.packageName"/>
-              </el-col>
-            </el-form-item>
-          </el-row>
-        </el-card>
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>MainService</span>
-            <el-button style="float: right; padding: 3px 0" type="text"/>
-          </div>
-          <el-row>
-            <el-form-item label="MainService类包名">
-              <el-col :span="12">
-                <el-input v-model="form.mainService.packageName"/>
-              </el-col>
-            </el-form-item>
-          </el-row>
-        </el-card>
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>Facade</span>
-            <el-button style="float: right; padding: 3px 0" type="text"/>
-          </div>
-          <el-row>
-            <el-form-item label="Facade类包名">
-              <el-col :span="12">
-                <el-input v-model="form.facade.packageName"/>
-              </el-col>
-            </el-form-item>
-          </el-row>
-        </el-card>
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>Dto</span>
-            <el-button style="float: right; padding: 3px 0" type="text"/>
-          </div>
+        <el-collapse v-model="activeNames"  class="collapse-title">
+          <el-collapse-item title="Controller"  name="1" accordion>
+            <el-row>
+              <el-form-item label="Controller类包名">
+                <el-col :span="12">
+                  <el-input v-model="form.controller.packageName"/>
+                </el-col>
+                <el-switch
+                  style="margin-left: 100px;"
+                  v-model="form.controller.generate"
+                  inactive-text="是否生成"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  :span="12">
+                </el-switch>
+              </el-form-item>
+            </el-row>
+          </el-collapse-item>
+        </el-collapse>
+        <el-collapse v-model="activeNames" class="collapse-title">
+          <el-collapse-item title="Service" name="2" accordion>
+            <el-row>
+              <el-form-item label="Service类包名">
+                <el-col :span="12">
+                  <el-input v-model="form.service.packageName"/>
+                </el-col>
+                <el-switch
+                  style="margin-left: 100px;"
+                  v-model="form.service.generate"
+                  inactive-text="是否生成"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  :span="12">
+                </el-switch>
+              </el-form-item>
+            </el-row>
+          </el-collapse-item>
+        </el-collapse>
+        <el-collapse v-model="activeNames" class="collapse-title">
+          <el-collapse-item title="MainService" name="3" accordion>
+            <el-row>
+              <el-form-item label="MainService类包名">
+                <el-col :span="12">
+                  <el-input v-model="form.mainService.packageName"/>
+                </el-col>
+                <el-switch
+                  style="margin-left: 100px;"
+                  v-model="form.mainService.generate"
+                  inactive-text="是否生成"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  :span="12">
+                </el-switch>
+              </el-form-item>
+            </el-row>
+          </el-collapse-item>
+        </el-collapse>
+        <el-collapse v-model="activeNames" class="collapse-title">
+          <el-collapse-item title="Facade" name="4" accordion>
+            <el-row>
+              <el-form-item label="Facade类包名">
+                <el-col :span="12">
+                  <el-input v-model="form.facade.packageName"/>
+                </el-col>
+                <el-switch
+                  style="margin-left: 100px;"
+                  v-model="form.facade.generate"
+                  inactive-text="是否生成"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  :span="12">
+                </el-switch>
+              </el-form-item>
+            </el-row>
+          </el-collapse-item>
+        </el-collapse>
+
+        <el-collapse v-model="activeNames" class="collapse-title">
+        <el-collapse-item title="Dto" name="5" accordion>
           <el-row>
             <el-form-item label="Dto类包名">
               <el-col :span="12">
                 <el-input v-model="form.dto.packageName"/>
               </el-col>
+              <el-switch
+                style="margin-left: 100px;"
+                v-model="form.dto.generate"
+                inactive-text="是否生成"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                :span="12">
+              </el-switch>
             </el-form-item>
           </el-row>
-        </el-card>
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>Mapper</span>
-            <el-button style="float: right; padding: 3px 0" type="text"/>
-          </div>
-          <el-row>
-            <el-form-item label="表名">
-              <el-col :span="6">
-                <el-input v-model="form.tableName" :disabled="true"/>
-              </el-col>
-            </el-form-item>
-            <el-form-item label="主键（选填）">
-              <el-col :span="6">
-                <el-input v-model="form.entity.id"/>
-              </el-col>
-            </el-form-item>
-            <el-form-item label="Entity类包名">
-              <el-col :span="12">
-                <el-input v-model="form.entity.packageName"/>
-              </el-col>
-            </el-form-item>
-            <el-form-item label="Mapper类包名">
-              <el-col :span="12">
-                <el-input v-model="form.mapper.packageName"/>
-              </el-col>
-            </el-form-item>
-            <el-form-item label="Mapper类名（自定义）">
-              <el-col :span="12">
-                <el-input v-model="form.mapper.name"/>
-              </el-col>
-            </el-form-item>
-            <el-form-item>
-              <el-col :span="12">
-                <el-switch
-                  v-model="form.isPaging"
-                  active-text="分页"/>
-                <el-switch
-                  v-model="form.isPaging"
-                  active-text="生成注释"/>
-              </el-col>
-            </el-form-item>
-          </el-row>
-        </el-card>
+        </el-collapse-item>
+      </el-collapse>
 
-        <el-button type="success" @click="generateCode()">代码生成</el-button>
+        <el-collapse v-model="activeNames"  class="collapse-title" >
+          <el-collapse-item title="Mapper" name="6" accordion>
+            <el-row>
+              <el-form-item label="表名">
+                <el-col :span="6">
+                  <el-input v-model="form.tableName" :disabled="true"/>
+                </el-col>
+              </el-form-item>
+              <el-form-item label="主键（选填）">
+                <el-col :span="6">
+                  <el-input v-model="form.entity.id"/>
+                </el-col>
+              </el-form-item>
+              <el-form-item label="Entity类包名">
+                <el-col :span="12">
+                  <el-input v-model="form.entity.packageName"/>
+                </el-col>
+                <el-switch
+                  style="margin-left: 100px;"
+                  v-model="form.entity.generate"
+                  inactive-text="是否生成"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  :span="12">
+                </el-switch>
+              </el-form-item>
+              <el-form-item label="Mapper类包名">
+                <el-col :span="12">
+                  <el-input v-model="form.mapper.packageName"/>
+                </el-col>
+                <el-switch
+                  style="margin-left: 100px;"
+                  v-model="form.mapper.generate"
+                  inactive-text="是否生成"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  :span="12">
+                </el-switch>
+              </el-form-item>
+              <el-form-item label="Mapper类名（自定义）">
+                <el-col :span="12">
+                  <el-input v-model="form.mapper.name"/>
+                </el-col>
+              </el-form-item>
+              <el-form-item label="作者名">
+                <el-col :span="12">
+                  <el-input v-model="form.author"/>
+                </el-col>
+              </el-form-item>
+              <el-form-item>
+                <el-col :span="12">
+                  <el-switch
+                    v-model="form.isPaging"
+                    active-text="分页"/>
+                  <el-switch
+                    v-model="form.isPaging"
+                    active-text="生成注释"/>
+                </el-col>
+              </el-form-item>
+            </el-row>
+          </el-collapse-item>
+        </el-collapse>
+        <el-collapse v-model="activeNames"  class="collapse-title">
+          <el-collapse-item title="生成路径" name="7" accordion>
+            <el-form-item label="路径">
+              <el-col :span="12">
+                <el-input v-model="generateDirectory" disabled/>
+              </el-col>
+            </el-form-item>
+            <el-tree :props="defaultProps" :load="loadNode" lazy ></el-tree>
+          </el-collapse-item>
+        </el-collapse>
+        <el-button style="margin-left: 100px;" type="success" @click="generateCode()">代码生成</el-button>
         <el-button type="primary">确定</el-button>
       </el-form>
     </el-container>
@@ -260,6 +320,20 @@ export default {
   // components: { contextMenu },
   data() {
     return {
+      generateDirectory:'',
+      defaultProps: {
+        children: 'children',
+        label: 'label',
+        value:'value',
+        id:'id'
+      },
+      directory: [{
+        id:'1',
+        label: '/',
+        value:'/',
+        children: []
+      }],
+      activeNames: ['1','2','3','4','5','6','7'],
       tip: '操作步骤：1.添加连接，指定对应的数据源 <br/> 2.选择对应连接，加载该数据源下的所有表记录 <br/> 3.双击表结构，点击代码生成',
       rightClickMenu: [{
         text: '删除',
@@ -329,51 +403,53 @@ export default {
         encoding: ''
       },
       form: {
+        path:'',
         isPaging: true,
         tableName: 't_device',
         encoding: '',
+        author:'user',
         controller: {
           name: 'DeviceController',
           packageName: 'com.minivision.sms.agw.gateway.controller.device',
           path: 'src/main/java',
-          isGenerate: true
+          generate: true
         },
         service: {
           name: 'DeviceService',
           packageName: 'com.minivision.sms.agw.gateway.service.device',
           path: 'src/main/java',
-          isGenerate: true
+          generate: true
         },
         dto: {
           name: 'Device',
           packageName: 'com.minivision.sms.api.domain.dto.device',
           path: 'src/main/java',
-          isGenerate: true
+          generate: true
         },
         entity: {
           id: 'device_id',
           name: 'Device',
           packageName: 'com.minivision.sms.main.domain.entity.device',
           path: 'src/main/java',
-          isGenerate: true
+          generate: true
         },
         mapper: {
           name: 'DeviceMapper',
           packageName: 'com.minivision.sms.main.domain.mapper.device',
           path: 'src/main/java',
-          isGenerate: true
+          generate: true
         },
         facade: {
           name: 'DeviceFacade',
           packageName: 'com.minivision.sms.api.domain.facade.device',
           path: 'src/main/java',
-          isGenerate: true
+          generate: true
         },
         mainService: {
           name: 'DeviceService',
           packageName: 'com.minivision.sms.main.domain.service.device',
           path: 'src/main/java',
-          isGenerate: true
+          generate: true
         },
         name: '',
         region: '',
@@ -441,6 +517,54 @@ export default {
     this.loadConnection()
   },
   methods: {
+    loadNode(node, resolve) {
+      if (node.level === 0) {
+        const jsonString ={
+          id: '1',
+          directory: '/'
+        }
+        doPost(JSON.stringify(jsonString), '/code/getDirectory')
+          .then(res => {
+            return resolve(res.data.data)
+          })
+      }else {
+        const jsonString ={
+          id: node.data.id,
+          directory: node.data.value
+        }
+        this.generateDirectory = node.data.value
+        doPost(JSON.stringify(jsonString), '/code/getDirectory')
+          .then(res => {
+            if (res.data.code === 1) {
+              if (res) {
+                return resolve(res.data.data)
+              }
+            }
+            return resolve([])
+          })
+
+      }
+    },
+    getObjectURL(file){
+      var url = null;
+      if (window.createObjcectURL != undefined) {
+        url = window.createOjcectURL(file);
+      } else if (window.URL != undefined) {
+        url = window.URL.createObjectURL(file);
+      } else if (window.webkitURL != undefined) {
+        url = window.webkitURL.createObjectURL(file);
+      }
+      return url;
+    },
+    browseFolder(path) {
+      let myFile = this.$refs['myFile'].files[0]
+      var objURL = this.getObjectURL(myFile)
+      window.open(objURL)
+      console.log('测试',objURL)
+    },
+    handleChange(val) {
+      console.log(val);
+    },
     deleteConnection(connection) {
       removeLocalStorage(connection.key)
       const cons = JSON.parse(getLocalStorage('connectionsIndex'))
@@ -504,6 +628,7 @@ export default {
     },
     generateCode() {
       const jsonString = {
+        generateDirectory:this.generateDirectory,
         tableName: this.form.tableName,
         encoding: 'utf-8',
         mapperName: this.form.mapper.name,
@@ -513,50 +638,54 @@ export default {
           name: this.form.controller.name,
           packageName: this.form.controller.packageName,
           path: this.form.controller.path,
-          isGenerate: this.form.controller.isGenerate
+          isGenerate: this.form.controller.generate
         },
         service: {
           name: this.form.service.name,
           packageName: this.form.service.packageName,
           path: this.form.service.path,
-          isGenerate: this.form.service.isGenerate
+          isGenerate: this.form.service.generate
         },
         dto: {
           name: this.form.dto.name,
           packageName: this.form.dto.packageName,
           path: this.form.dto.path,
-          isGenerate: this.form.dto.isGenerate
+          isGenerate: this.form.dto.generate
         },
         entity: {
           name: this.form.entity.name,
           packageName: this.form.entity.packageName,
           path: this.form.entity.path,
-          isGenerate: this.form.entity.isGenerate
+          isGenerate: this.form.entity.generate
         },
         mapper: {
           name: this.form.mapper.name,
           packageName: this.form.mapper.packageName,
           path: this.form.mapper.path,
-          isGenerate: this.form.mapper.isGenerate
+          isGenerate: this.form.mapper.generate
         },
         facade: {
           name: this.form.facade.name,
           packageName: this.form.facade.packageName,
           path: this.form.facade.path,
-          isGenerate: this.form.facade.isGenerate
+          isGenerate: this.form.facade.generate
         },
         mainService: {
           name: this.form.mainService.name,
           packageName: this.form.mainService.packageName,
           path: this.form.mainService.path,
-          isGenerate: this.form.mainService.isGenerate
+          isGenerate: this.form.mainService.generate
         }
       }
       console.log(this.connectionForm.hostName)
       doPost(JSON.stringify(jsonString), '/code/generate')
         .then(res => {
-          var path = res.data.data.path
-          location.href = 'http://192.168.7.13:6020/' + path
+          console.log(res)
+          if (res.data.msg[0].msgCode === '10001'){
+            this.$message.success(res.data.msg[0].msgText);
+          }else {
+            this.$message.error(res.data.msg[0].msgText);
+          }
         })
     },
     handleKey(key) {
@@ -705,5 +834,10 @@ export default {
 
   .el-form-item {
     margin-bottom: 11px;
+  }
+
+  .collapse-title .el-collapse-item__header {
+    font-size: 18px;
+    width: 1024px;
   }
 </style>
