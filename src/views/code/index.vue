@@ -301,7 +301,7 @@
                 <el-input v-model="generateDirectory" disabled/>
               </el-col>
             </el-form-item>
-            <el-tree :props="defaultProps" :load="loadNode" lazy ></el-tree>
+            <el-tree :props="defaultProps" :load="loadNode" @node-click="handleTreeClick" lazy ></el-tree>
           </el-collapse-item>
         </el-collapse>
         <el-button style="margin-left: 100px;" type="success" @click="generateCode()">代码生成</el-button>
@@ -517,6 +517,10 @@ export default {
     this.loadConnection()
   },
   methods: {
+    handleTreeClick(data){
+      console.log(data)
+      this.generateDirectory = data.value
+    },
     loadNode(node, resolve) {
       if (node.level === 0) {
         const jsonString ={
@@ -528,11 +532,11 @@ export default {
             return resolve(res.data.data)
           })
       }else {
+        this.generateDirectory = node.data.value
         const jsonString ={
           id: node.data.id,
           directory: node.data.value
         }
-        this.generateDirectory = node.data.value
         doPost(JSON.stringify(jsonString), '/code/getDirectory')
           .then(res => {
             if (res.data.code === 1) {
