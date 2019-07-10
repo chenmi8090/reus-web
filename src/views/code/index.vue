@@ -6,6 +6,10 @@
       <el-tree :props="defaultProps" :load="loadNode" @node-click="handleTreeClick" lazy ></el-tree>
     </el-dialog>
 
+    <el-dialog title="选择路径" :visible.sync="dialogTableXmlVisible">
+      <el-tree :props="defaultProps" :load="loadNode" @node-click="handleTreeClickByXml" lazy ></el-tree>
+    </el-dialog>
+
     <el-dialog
       :visible.sync="dialogVisible"
       :before-close="handleClose"
@@ -295,6 +299,12 @@
               </el-col>
               <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.mapper" plain>选择路径</el-button>
             </el-form-item>
+            <el-form-item label="Xml路径">
+              <el-col :span="12">
+                <el-input v-model="xmlPath" disabled/>
+              </el-col>
+              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableXmlVisible = true;" plain>选择路径</el-button>
+            </el-form-item>
           </el-collapse-item>
         </el-collapse>
 
@@ -371,7 +381,9 @@ export default {
   // components: { contextMenu },
   data() {
     return {
+      xmlPath:'',
       myOptionItem: null,
+      dialogTableXmlVisible:false,
       dialogTableVisible: false,
       defaultProps: {
         children: 'children',
@@ -456,50 +468,50 @@ export default {
       },
       form: {
         isPaging: true,
-        tableName: 't_device',
+        tableName: 't_xxx',
         encoding: '',
         author:'user',
         controller: {
-          name: 'DeviceController',
-          packageName: 'com.minivision.sms.agw.gateway.controller.device',
-          path: 'src/main/java',
+          name: 'XxxController',
+          packageName: 'com.minivision.sms.agw.gateway.controller.xxx',
+          path: '',
           generate: true
         },
         service: {
-          name: 'DeviceService',
-          packageName: 'com.minivision.sms.agw.gateway.service.device',
-          path: 'src/main/java',
+          name: 'XxxService',
+          packageName: 'com.minivision.sms.agw.gateway.service.xxx',
+          path: '',
           generate: true
         },
         dto: {
-          name: 'Device',
-          packageName: 'com.minivision.sms.api.domain.dto.device',
-          path: 'src/main/java',
+          name: 'XxxDTO',
+          packageName: 'com.minivision.sms.api.domain.dto.xxx',
+          path: '',
           generate: true
         },
         entity: {
-          id: 'device_id',
-          name: 'Device',
-          packageName: 'com.minivision.sms.main.domain.entity.device',
-          path: 'src/main/java',
+          id: 'XxxId',
+          name: 'Xxx',
+          packageName: 'com.minivision.sms.main.domain.entity.xxx',
+          path: '',
           generate: true
         },
         mapper: {
-          name: 'DeviceMapper',
-          packageName: 'com.minivision.sms.main.domain.mapper.device',
-          path: 'src/main/java',
+          name: 'XxxMapper',
+          packageName: 'com.minivision.sms.main.domain.mapper.xxx',
+          path: '',
           generate: true
         },
         facade: {
-          name: 'DeviceFacade',
-          packageName: 'com.minivision.sms.api.domain.facade.device',
-          path: 'src/main/java',
+          name: 'XxxFacade',
+          packageName: 'com.minivision.sms.api.domain.facade.xxx',
+          path: '',
           generate: true
         },
         mainService: {
-          name: 'DeviceService',
-          packageName: 'com.minivision.sms.main.domain.service.device',
-          path: 'src/main/java',
+          name: 'XxxService',
+          packageName: 'com.minivision.sms.main.domain.service.xxx',
+          path: '',
           generate: true
         },
         name: '',
@@ -568,6 +580,11 @@ export default {
     this.loadConnection()
   },
   methods: {
+    handleTreeClickByXml(data){
+      console.log(data.value)
+      this.dialogTableXmlVisible = false
+      this.xmlPath = data.value
+    },
     handleTreeClick(data){
       console.log(data.value)
       this.dialogTableVisible = false
@@ -685,6 +702,7 @@ export default {
       const jsonString = {
         tableName: this.form.tableName,
         encoding: 'utf-8',
+        xmlPath:this.from.xmlPath,
         mapperName: this.form.mapper.name,
         primaryKey: this.form.entity.id,
         dataSource: this.connectionForm,
