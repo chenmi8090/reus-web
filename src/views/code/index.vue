@@ -1,6 +1,11 @@
 <template>
 
   <el-container style="min-height: 900px; border: 1px solid #eee;">
+
+    <el-dialog title="选择路径" :visible.sync="dialogTableVisible">
+      <el-tree :props="defaultProps" :load="loadNode" @node-click="handleTreeClick" lazy ></el-tree>
+    </el-dialog>
+
     <el-dialog
       :visible.sync="dialogVisible"
       :before-close="handleClose"
@@ -152,6 +157,12 @@
                 </el-switch>
               </el-form-item>
             </el-row>
+            <el-form-item label="路径">
+              <el-col :span="12">
+                <el-input v-model="form.controller.path" disabled/>
+              </el-col>
+              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.controller" plain>选择路径</el-button>
+            </el-form-item>
           </el-collapse-item>
         </el-collapse>
         <el-collapse v-model="activeNames" class="collapse-title">
@@ -171,6 +182,12 @@
                 </el-switch>
               </el-form-item>
             </el-row>
+            <el-form-item label="路径">
+              <el-col :span="12">
+                <el-input v-model="form.service.path" disabled/>
+              </el-col>
+              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.service" plain>选择路径</el-button>
+            </el-form-item>
           </el-collapse-item>
         </el-collapse>
         <el-collapse v-model="activeNames" class="collapse-title">
@@ -190,6 +207,12 @@
                 </el-switch>
               </el-form-item>
             </el-row>
+            <el-form-item label="路径">
+              <el-col :span="12">
+                <el-input v-model="form.mainService.path" disabled/>
+              </el-col>
+              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.mainService" plain>选择路径</el-button>
+            </el-form-item>
           </el-collapse-item>
         </el-collapse>
         <el-collapse v-model="activeNames" class="collapse-title">
@@ -209,6 +232,12 @@
                 </el-switch>
               </el-form-item>
             </el-row>
+            <el-form-item label="路径">
+              <el-col :span="12">
+                <el-input v-model="form.facade.path" disabled/>
+              </el-col>
+              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.facade" plain>选择路径</el-button>
+            </el-form-item>
           </el-collapse-item>
         </el-collapse>
 
@@ -229,35 +258,18 @@
               </el-switch>
             </el-form-item>
           </el-row>
+          <el-form-item label="路径">
+            <el-col :span="12">
+              <el-input v-model="form.dto.path" disabled/>
+            </el-col>
+            <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.dto" plain>选择路径</el-button>
+          </el-form-item>
         </el-collapse-item>
       </el-collapse>
 
         <el-collapse v-model="activeNames"  class="collapse-title" >
           <el-collapse-item title="Mapper" name="6" accordion>
             <el-row>
-              <el-form-item label="表名">
-                <el-col :span="6">
-                  <el-input v-model="form.tableName" :disabled="true"/>
-                </el-col>
-              </el-form-item>
-              <el-form-item label="主键（选填）">
-                <el-col :span="6">
-                  <el-input v-model="form.entity.id"/>
-                </el-col>
-              </el-form-item>
-              <el-form-item label="Entity类包名">
-                <el-col :span="12">
-                  <el-input v-model="form.entity.packageName"/>
-                </el-col>
-                <el-switch
-                  style="margin-left: 100px;"
-                  v-model="form.entity.generate"
-                  inactive-text="是否生成"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949"
-                  :span="12">
-                </el-switch>
-              </el-form-item>
               <el-form-item label="Mapper类包名">
                 <el-col :span="12">
                   <el-input v-model="form.mapper.packageName"/>
@@ -274,6 +286,55 @@
               <el-form-item label="Mapper类名（自定义）">
                 <el-col :span="12">
                   <el-input v-model="form.mapper.name"/>
+                </el-col>
+              </el-form-item>
+            </el-row>
+            <el-form-item label="路径">
+              <el-col :span="12">
+                <el-input v-model="form.mapper.path" disabled/>
+              </el-col>
+              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.mapper" plain>选择路径</el-button>
+            </el-form-item>
+          </el-collapse-item>
+        </el-collapse>
+
+        <el-collapse v-model="activeNames"  class="collapse-title" >
+          <el-collapse-item title="Entity" name="7" accordion>
+            <el-row>
+              <el-form-item label="Entity类包名">
+                <el-col :span="12">
+                  <el-input v-model="form.entity.packageName"/>
+                </el-col>
+                <el-switch
+                  style="margin-left: 100px;"
+                  v-model="form.entity.generate"
+                  inactive-text="是否生成"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  :span="12">
+                </el-switch>
+              </el-form-item>
+            </el-row>
+            <el-form-item label="路径">
+              <el-col :span="12">
+                <el-input v-model="form.entity.path" disabled/>
+              </el-col>
+              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.entity" plain>选择路径</el-button>
+            </el-form-item>
+          </el-collapse-item>
+        </el-collapse>
+
+        <el-collapse v-model="activeNames"  class="collapse-title" >
+          <el-collapse-item title="其他" name="8" accordion>
+            <el-row>
+              <el-form-item label="表名">
+                <el-col :span="6">
+                  <el-input v-model="form.tableName" :disabled="true"/>
+                </el-col>
+              </el-form-item>
+              <el-form-item label="主键（选填）">
+                <el-col :span="6">
+                  <el-input v-model="form.entity.id"/>
                 </el-col>
               </el-form-item>
               <el-form-item label="作者名">
@@ -294,16 +355,6 @@
             </el-row>
           </el-collapse-item>
         </el-collapse>
-        <el-collapse v-model="activeNames"  class="collapse-title">
-          <el-collapse-item title="生成路径" name="7" accordion>
-            <el-form-item label="路径">
-              <el-col :span="12">
-                <el-input v-model="generateDirectory" disabled/>
-              </el-col>
-            </el-form-item>
-            <el-tree :props="defaultProps" :load="loadNode" @node-click="handleTreeClick" lazy ></el-tree>
-          </el-collapse-item>
-        </el-collapse>
         <el-button style="margin-left: 100px;" type="success" @click="generateCode()">代码生成</el-button>
         <el-button type="primary">确定</el-button>
       </el-form>
@@ -320,7 +371,8 @@ export default {
   // components: { contextMenu },
   data() {
     return {
-      generateDirectory:'',
+      myOptionItem: null,
+      dialogTableVisible: false,
       defaultProps: {
         children: 'children',
         label: 'label',
@@ -333,7 +385,7 @@ export default {
         value:'/',
         children: []
       }],
-      activeNames: ['1','2','3','4','5','6','7'],
+      activeNames: ['1','2','3','4','5','6','7','8'],
       tip: '操作步骤：1.添加连接，指定对应的数据源 <br/> 2.选择对应连接，加载该数据源下的所有表记录 <br/> 3.双击表结构，点击代码生成',
       rightClickMenu: [{
         text: '删除',
@@ -403,7 +455,6 @@ export default {
         encoding: ''
       },
       form: {
-        path:'',
         isPaging: true,
         tableName: 't_device',
         encoding: '',
@@ -518,8 +569,9 @@ export default {
   },
   methods: {
     handleTreeClick(data){
-      console.log(data)
-      this.generateDirectory = data.value
+      console.log(data.value)
+      this.dialogTableVisible = false
+      this.myOptionItem.path = data.value
     },
     loadNode(node, resolve) {
       if (node.level === 0) {
@@ -532,7 +584,6 @@ export default {
             return resolve(res.data.data)
           })
       }else {
-        this.generateDirectory = node.data.value
         const jsonString ={
           id: node.data.id,
           directory: node.data.value
@@ -632,7 +683,6 @@ export default {
     },
     generateCode() {
       const jsonString = {
-        generateDirectory:this.generateDirectory,
         tableName: this.form.tableName,
         encoding: 'utf-8',
         mapperName: this.form.mapper.name,
