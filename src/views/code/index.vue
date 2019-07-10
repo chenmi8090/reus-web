@@ -581,12 +581,10 @@ export default {
   },
   methods: {
     handleTreeClickByXml(data){
-      console.log(data.value)
       this.dialogTableXmlVisible = false
       this.xmlPath = data.value
     },
     handleTreeClick(data){
-      console.log(data.value)
       this.dialogTableVisible = false
       this.myOptionItem.path = data.value
     },
@@ -702,7 +700,8 @@ export default {
       const jsonString = {
         tableName: this.form.tableName,
         encoding: 'utf-8',
-        xmlPath:this.from.xmlPath,
+        author:this.form.author,
+        xmlPath:this.xmlPath,
         mapperName: this.form.mapper.name,
         primaryKey: this.form.entity.id,
         dataSource: this.connectionForm,
