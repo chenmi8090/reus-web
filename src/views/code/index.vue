@@ -870,8 +870,12 @@ export default {
       // console.log(this.connections);
       doPost(getLocalStorage(connection), '/database/connect')
         .then(res => {
-          if (res.data.code === 0){
-            this.$message.error(res.data.msg[0].msgText);
+          if (res.data.code !== 1){
+            if(res.data.msg[0].msgText != ''){
+              this.$message.error(res.data.msg[0].msgText);
+            }else{
+              this.$message.error('数据库连接异常,请检查配置后再次点击连接');
+            }
           }else{
             for (let i = 0; i < that.connections.length; i++) {
               if (that.connections[i].key === connection) {
