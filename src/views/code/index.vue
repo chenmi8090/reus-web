@@ -111,7 +111,7 @@
         <svg-icon icon-class="tip"/>
       </el-tooltip>
       <el-row class="tac">
-        <el-col :span="18">
+        <el-col :span="25">
           <!-- <h5>默认颜色</h5>-->
           <el-menu
             default-active="2"
