@@ -165,7 +165,7 @@
               <el-col :span="12">
                 <el-input v-model="form.controller.path" disabled/>
               </el-col>
-              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.controller" plain>选择路径</el-button>
+              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.controller; myOptionItemType= 1" plain>选择路径</el-button>
             </el-form-item>
           </el-collapse-item>
         </el-collapse>
@@ -190,32 +190,7 @@
               <el-col :span="12">
                 <el-input v-model="form.service.path" disabled/>
               </el-col>
-              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.service" plain>选择路径</el-button>
-            </el-form-item>
-          </el-collapse-item>
-        </el-collapse>
-        <el-collapse v-model="activeNames" class="collapse-title">
-          <el-collapse-item title="MainService" name="3" accordion>
-            <el-row>
-              <el-form-item label="MainService类包名">
-                <el-col :span="12">
-                  <el-input v-model="form.mainService.packageName"/>
-                </el-col>
-                <el-switch
-                  style="margin-left: 100px;"
-                  v-model="form.mainService.generate"
-                  inactive-text="是否生成"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949"
-                  :span="12">
-                </el-switch>
-              </el-form-item>
-            </el-row>
-            <el-form-item label="路径">
-              <el-col :span="12">
-                <el-input v-model="form.mainService.path" disabled/>
-              </el-col>
-              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.mainService" plain>选择路径</el-button>
+              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.service; myOptionItemType= 2" plain>选择路径</el-button>
             </el-form-item>
           </el-collapse-item>
         </el-collapse>
@@ -240,7 +215,7 @@
               <el-col :span="12">
                 <el-input v-model="form.facade.path" disabled/>
               </el-col>
-              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.facade" plain>选择路径</el-button>
+              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.facade; myOptionItemType= 4 " plain>选择路径</el-button>
             </el-form-item>
           </el-collapse-item>
         </el-collapse>
@@ -266,11 +241,35 @@
             <el-col :span="12">
               <el-input v-model="form.dto.path" disabled/>
             </el-col>
-            <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.dto" plain>选择路径</el-button>
+            <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.dto; myOptionItemType= 5" plain>选择路径</el-button>
           </el-form-item>
         </el-collapse-item>
       </el-collapse>
-
+        <el-collapse v-model="activeNames" class="collapse-title">
+          <el-collapse-item title="MainService" name="3" accordion>
+            <el-row>
+              <el-form-item label="MainService类包名">
+                <el-col :span="12">
+                  <el-input v-model="form.mainService.packageName"/>
+                </el-col>
+                <el-switch
+                  style="margin-left: 100px;"
+                  v-model="form.mainService.generate"
+                  inactive-text="是否生成"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  :span="12">
+                </el-switch>
+              </el-form-item>
+            </el-row>
+            <el-form-item label="路径">
+              <el-col :span="12">
+                <el-input v-model="form.mainService.path" disabled/>
+              </el-col>
+              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.mainService; myOptionItemType= 3" plain>选择路径</el-button>
+            </el-form-item>
+          </el-collapse-item>
+        </el-collapse>
         <el-collapse v-model="activeNames"  class="collapse-title" >
           <el-collapse-item title="Mapper" name="6" accordion>
             <el-row>
@@ -297,13 +296,13 @@
               <el-col :span="12">
                 <el-input v-model="form.mapper.path" disabled/>
               </el-col>
-              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.mapper" plain>选择路径</el-button>
+              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.mapper; myOptionItemType= 6" plain>选择路径</el-button>
             </el-form-item>
             <el-form-item label="Xml路径">
               <el-col :span="12">
                 <el-input v-model="xmlPath" disabled/>
               </el-col>
-              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableXmlVisible = true;" plain>选择路径</el-button>
+              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableXmlVisible = true; myOptionItemType= 7" plain>选择路径</el-button>
             </el-form-item>
           </el-collapse-item>
         </el-collapse>
@@ -329,7 +328,7 @@
               <el-col :span="12">
                 <el-input v-model="form.entity.path" disabled/>
               </el-col>
-              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.entity" plain>选择路径</el-button>
+              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.entity; myOptionItemType= 8" plain>选择路径</el-button>
             </el-form-item>
           </el-collapse-item>
         </el-collapse>
@@ -340,11 +339,6 @@
               <el-form-item label="表名">
                 <el-col :span="6">
                   <el-input v-model="form.tableName" :disabled="true"/>
-                </el-col>
-              </el-form-item>
-              <el-form-item label="主键（选填）">
-                <el-col :span="6">
-                  <el-input v-model="form.entity.id"/>
                 </el-col>
               </el-form-item>
               <el-form-item label="作者名">
@@ -383,6 +377,7 @@ export default {
     return {
       xmlPath:'',
       myOptionItem: null,
+      myOptionItemType:null,
       dialogTableXmlVisible:false,
       dialogTableVisible: false,
       defaultProps: {
@@ -586,6 +581,48 @@ export default {
     },
     handleTreeClick(data){
       this.dialogTableVisible = false
+      if(this.myOptionItemType === 1 && this.form.service.path === ''){
+        this.form.service.path = data.value
+      }
+      if(this.myOptionItemType === 2 && this.form.controller.path === ''){
+        this.form.controller.path = data.value
+      }
+
+      if(this.myOptionItemType === 4 && this.form.dto.path === ''){
+        this.form.dto.path = data.value
+      }
+      if(this.myOptionItemType === 5 && this.form.facade.path === ''){
+        this.form.facade.path = data.value
+      }
+
+
+      if((this.myOptionItemType === 3 && this.form.entity.path === '') || (this.myOptionItemType === 3 && this.form.mapper.path === '')){
+        if (this.form.mapper.path === ''){
+          this.form.mapper.path = data.value
+        }
+        if (this.form.entity.path === ''){
+          this.form.entity.path = data.value
+        }
+      }
+      if((this.myOptionItemType === 6 && this.form.mainService.path === '') || (this.myOptionItemType === 6 && this.form.entity.path === '')){
+        if (this.form.mainService.path === ''){
+          this.form.mainService.path = data.value
+        }
+        if (this.form.entity.path === ''){
+          this.form.entity.path = data.value
+        }
+      }
+      if((this.myOptionItemType === 8 && this.form.mapper.path === '') || (this.myOptionItemType === 8 && this.form.mainService.path === '')){
+        if (this.form.mapper.path === ''){
+          this.form.mapper.path = data.value
+        }
+        if (this.form.mainService.path === ''){
+          this.form.mainService.path = data.value
+        }
+      }
+
+
+
       this.myOptionItem.path = data.value
     },
     loadNode(node, resolve) {
