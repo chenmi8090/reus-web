@@ -812,7 +812,7 @@ export default {
       console.log(this.connectionForm.hostName)
       doPost(JSON.stringify(jsonString), '/code/generate')
         .then(res => {
-          if (res.data.msg[0].msgCode === '10001'){
+          if (res.data.code === 1){
             this.$message.success(res.data.msg[0].msgText);
           }else {
             this.$message.error(res.data.msg[0].msgText);
@@ -870,14 +870,16 @@ export default {
       // console.log(this.connections);
       doPost(getLocalStorage(connection), '/database/connect')
         .then(res => {
-          // this.tables = res.data.data;
-          // alert(that.connections.length);
-          for (let i = 0; i < that.connections.length; i++) {
-            if (that.connections[i].key === connection) {
-              that.connections[i].tables = res.data.data
+          if (res.data.code === 0){
+            this.$message.error(res.data.msg[0].msgText);
+          }else{
+            for (let i = 0; i < that.connections.length; i++) {
+              if (that.connections[i].key === connection) {
+                that.connections[i].tables = res.data.data
+              }
             }
+            setLocalStorage('connectionsIndex', JSON.stringify(that.connections))
           }
-          setLocalStorage('connectionsIndex', JSON.stringify(that.connections))
         })
     },
     handleClick(tableName, connection) {
@@ -885,17 +887,21 @@ export default {
       const that = this
       doPost(json, '/code/getPackageAndClass')
         .then(res => {
-          const response = res.data.data
-          that.form.controller = response.controller
-          that.form.mapper = response.mapper
-          that.form.service = response.service
-          that.form.dto = response.dto
-          that.form.entity = response.entity
-          that.form.tableName = response.tableName
-          that.form.mainService = response.mainService
-          that.form.facade = response.facade
-          this.connectionForm = JSON.parse(getLocalStorage(connection.key))
-          // alert(res.data.data);
+          if(res.data.code === 0){
+            this.$message.error(res.data.msg[0].msgText);
+          }else{
+            const response = res.data.data
+            that.form.controller = response.controller
+            that.form.mapper = response.mapper
+            that.form.service = response.service
+            that.form.dto = response.dto
+            that.form.entity = response.entity
+            that.form.tableName = response.tableName
+            that.form.mainService = response.mainService
+            that.form.facade = response.facade
+            this.connectionForm = JSON.parse(getLocalStorage(connection.key))
+            // alert(res.data.data);
+          }
         })
     },
     /* handleClose(key, keyPath) {
