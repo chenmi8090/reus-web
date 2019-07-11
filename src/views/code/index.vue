@@ -10,6 +10,10 @@
       <el-tree :props="defaultProps" :load="loadNode" @node-click="handleTreeClickByXml" lazy ></el-tree>
     </el-dialog>
 
+    <el-dialog title="选择路径" :visible.sync="dialogTableImplVisible">
+      <el-tree :props="defaultProps" :load="loadNode" @node-click="handleTreeClickByImpl" lazy ></el-tree>
+    </el-dialog>
+
     <el-dialog
       :visible.sync="dialogVisible"
       :before-close="handleClose"
@@ -217,6 +221,12 @@
               </el-col>
               <el-button type="primary" style="margin-left: 100px;" @click="dialogTableVisible = true; myOptionItem = form.facade; myOptionItemType= 4 " plain>选择路径</el-button>
             </el-form-item>
+            <el-form-item label="Impl路径">
+              <el-col :span="12">
+                <el-input v-model="facadeImplPath" disabled/>
+              </el-col>
+              <el-button type="primary" style="margin-left: 100px;" @click="dialogTableImplVisible = true; myOptionItemType= 9 " plain>选择路径</el-button>
+            </el-form-item>
           </el-collapse-item>
         </el-collapse>
 
@@ -376,9 +386,11 @@ export default {
   data() {
     return {
       xmlPath:'',
+      facadeImplPath:'',
       myOptionItem: null,
       myOptionItemType:null,
       dialogTableXmlVisible:false,
+      dialogTableImplVisible:false,
       dialogTableVisible: false,
       defaultProps: {
         children: 'children',
@@ -579,6 +591,19 @@ export default {
       this.dialogTableXmlVisible = false
       this.xmlPath = data.value
     },
+    handleTreeClickByImpl(data){
+      this.dialogTableImplVisible = false
+      if (this.form.entity.path === ''){
+        this.form.entity.path = data.value
+      }
+      if (this.form.mapper.path === ''){
+        this.form.mapper.path = data.value
+      }
+      if (this.form.mainService.path === ''){
+        this.form.mainService.path = data.value
+      }
+      this.facadeImplPath = data.value
+    },
     handleTreeClick(data){
       this.dialogTableVisible = false
       if(this.myOptionItemType === 1 && this.form.service.path === ''){
@@ -600,6 +625,9 @@ export default {
         if (this.form.mapper.path === ''){
           this.form.mapper.path = data.value
         }
+        if(this.facadeImplPath === ''){
+          this.facadeImplPath = data.value
+        }
         if (this.form.entity.path === ''){
           this.form.entity.path = data.value
         }
@@ -608,6 +636,9 @@ export default {
         if (this.form.mainService.path === ''){
           this.form.mainService.path = data.value
         }
+        if(this.facadeImplPath === ''){
+          this.facadeImplPath = data.value
+        }
         if (this.form.entity.path === ''){
           this.form.entity.path = data.value
         }
@@ -615,6 +646,9 @@ export default {
       if((this.myOptionItemType === 8 && this.form.mapper.path === '') || (this.myOptionItemType === 8 && this.form.mainService.path === '')){
         if (this.form.mapper.path === ''){
           this.form.mapper.path = data.value
+        }
+        if(this.facadeImplPath === ''){
+          this.facadeImplPath = data.value
         }
         if (this.form.mainService.path === ''){
           this.form.mainService.path = data.value
@@ -739,6 +773,7 @@ export default {
         encoding: 'utf-8',
         author:this.form.author,
         xmlPath:this.xmlPath,
+        facadeImplPath:this.facadeImplPath,
         mapperName: this.form.mapper.name,
         primaryKey: this.form.entity.id,
         dataSource: this.connectionForm,
@@ -788,7 +823,6 @@ export default {
       console.log(this.connectionForm.hostName)
       doPost(JSON.stringify(jsonString), '/code/generate')
         .then(res => {
-          console.log(res)
           if (res.data.msg[0].msgCode === '10001'){
             this.$message.success(res.data.msg[0].msgText);
           }else {
