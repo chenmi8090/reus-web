@@ -99,7 +99,7 @@
         <el-button type="primary" @click="saveNewConnection('saveForm')">确 定</el-button>
       </span>
     </el-dialog>
-    <el-aside width="500px">
+    <el-aside style="height: 1500px; width : 430px" aria-expanded=true>
       <el-button type="primary" icon="el-icon-menu" size="medium" @click="openDialogNewConnection">添加连接</el-button>
       <el-button type="primary" icon="el-icon-tickets" size="medium">配置</el-button>
       <el-tooltip
@@ -118,34 +118,23 @@
             class="el-menu-vertical-demo"
             @open="handleSelect"
             @contextmenu.prevent.native="$easycm($event,$root)">
-            <!-- <right-menu :pop-items="popItems" :mouse="mousePosition" @ListItemClick="list_item_click">
-             </right-menu>-->
-            <!--<context-menu id="context-menu" ref="ctxMenu">
-              <ul class="easy-ul">
-                <li @click="">option 1</li>
-                <li class="disabled">option 2</li>
-                <li>option 3</li>
-              </ul>
-
-            </context-menu>-->
-
-            <el-submenu v-for="connection in connections" :index="connection.key" :key="connection.key">
+            <el-submenu v-for="connection in connections" :index="connection.key" :key="connection.key"  style="width: 400px" >
               <template slot="title">
                 <i class="el-icon-setting"/>
                 <!--<span @click="handleSelect(connection)">{{connection.key}}</span>-->
                 <span>{{ connection.key }}</span>
                 <easy-cm :list="rightClickMenu" @ecmcb="deleteConnection(connection)"/>
               </template>
-              <el-menu-item v-for="table in connection.tables" :index="table" @click="handleClick(table,connection)">
+              <el-menu-item v-for="table in connection.tables" :index="table" @click="handleClick(table,connection)" >
                 <i class="el-icon-rank"/>
-                <span slot="title">{{ table }}</span>
+                <span slot="title" style="width: 400px">{{ table }}</span>
               </el-menu-item>
             </el-submenu>
-
           </el-menu>
         </el-col>
       </el-row>
     </el-aside>
+
     <el-container>
       <el-form ref="form" :model="form" label-width="180px">
         <el-collapse v-model="activeNames"  class="collapse-title">
