@@ -10,11 +10,17 @@ import VueEasyCm from 'vue-easycm'
 
 import '@/styles/index.scss' // global css
 
+import 'element-ui/lib/theme-chalk/index.css';
+
 import App from './App'
 import router from './router'
 import store from './store'
 
 import '@/icons' // icon
+
+import VueContextMenu from 'vue-contextmenu'
+
+Vue.use(VueContextMenu)
 
 Vue.use(ElementUI, { locale })
 
