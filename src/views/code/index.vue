@@ -202,7 +202,6 @@
       </el-tooltip>
       <el-row class="tac">
         <el-col :span="25">
-          <!-- <h5>默认颜色</h5>-->
           <el-menu
             default-active="2"
             class="el-menu-vertical-demo"
@@ -217,7 +216,7 @@
                   style="width: 390px;height: 56px;">
                   <i class="el-icon-setting"/>
                   <span>{{ connection.key }}</span>
-                  <vue-context-menu style="width: 150px;height: 86px;"
+                  <vue-context-menu style="width: 150px;height: 86px"
                                     :contextMenuData="contextMenuData"
                                     :transferIndex="transferIndex"
                                     @updateDate="updateCheckConnection(connection.key)"
@@ -236,7 +235,7 @@
     </el-aside>
 
     <el-container>
-      <el-form ref="form" :model="form" label-width="180px">
+      <el-form :rules="rules" ref="form" :model="form" label-width="180px">
         <el-collapse v-model="activeNames" class="collapse-title">
           <el-collapse-item title="Controller" name="1" accordion>
             <el-row>
@@ -254,9 +253,9 @@
                 </el-switch>
               </el-form-item>
             </el-row>
-            <el-form-item label="路径">
+            <el-form-item style="margin-top: 10px" prop="controllerPath" label="路径">
               <el-col :span="12">
-                <el-input v-model="form.controller.path" disabled/>
+                <el-input v-model="form.controller.path"/>
               </el-col>
               <el-button type="primary" style="margin-left: 100px;"
                          @click="dialogTableVisible = true; myOptionItem = form.controller; myOptionItemType= 1" plain>
@@ -282,7 +281,7 @@
                 </el-switch>
               </el-form-item>
             </el-row>
-            <el-form-item label="路径">
+            <el-form-item style="margin-top: 10px" prop="servicePath" label="路径">
               <el-col :span="12">
                 <el-input v-model="form.service.path" disabled/>
               </el-col>
@@ -295,7 +294,7 @@
         <el-collapse v-model="activeNames" class="collapse-title">
           <el-collapse-item title="Facade" name="4" accordion>
             <el-row>
-              <el-form-item label="Facade类包名">
+              <el-form-item style="margin-top: 10px" label="Facade类包名">
                 <el-col :span="12">
                   <el-input v-model="form.facade.packageName"/>
                 </el-col>
@@ -309,7 +308,7 @@
                 </el-switch>
               </el-form-item>
             </el-row>
-            <el-form-item label="路径">
+            <el-form-item style="margin-top: 10px" prop="facadePath" label="路径">
               <el-col :span="12">
                 <el-input v-model="form.facade.path" disabled/>
               </el-col>
@@ -317,7 +316,7 @@
                          @click="dialogTableVisible = true; myOptionItem = form.facade; myOptionItemType= 4 " plain>选择路径
               </el-button>
             </el-form-item>
-            <el-form-item label="Impl路径">
+            <el-form-item style="margin-top: 20px" prop="facadeImplPath" label="Impl路径">
               <el-col :span="12">
                 <el-input v-model="facadeImplPath" disabled/>
               </el-col>
@@ -327,7 +326,6 @@
             </el-form-item>
           </el-collapse-item>
         </el-collapse>
-
         <el-collapse v-model="activeNames" class="collapse-title">
           <el-collapse-item title="Dto" name="5" accordion>
             <el-row>
@@ -345,7 +343,7 @@
                 </el-switch>
               </el-form-item>
             </el-row>
-            <el-form-item label="路径">
+            <el-form-item style="margin-top: 10px" prop="dtoPath" label="路径">
               <el-col :span="12">
                 <el-input v-model="form.dto.path" disabled/>
               </el-col>
@@ -372,7 +370,7 @@
                 </el-switch>
               </el-form-item>
             </el-row>
-            <el-form-item label="路径">
+            <el-form-item style="margin-top: 10px" prop="mainServicePath" label="路径">
               <el-col :span="12">
                 <el-input v-model="form.mainService.path" disabled/>
               </el-col>
@@ -399,13 +397,13 @@
                   :span="12">
                 </el-switch>
               </el-form-item>
-              <el-form-item label="Mapper类名（自定义）">
+              <el-form-item style="margin-top: 20px" label="Mapper类名（自定义）">
                 <el-col :span="12">
                   <el-input v-model="form.mapper.name"/>
                 </el-col>
               </el-form-item>
             </el-row>
-            <el-form-item label="路径">
+            <el-form-item style="margin-top: 10px" prop="mapperPath" label="路径">
               <el-col :span="12">
                 <el-input v-model="form.mapper.path" disabled/>
               </el-col>
@@ -413,7 +411,7 @@
                          @click="dialogTableVisible = true; myOptionItem = form.mapper; myOptionItemType= 6" plain>选择路径
               </el-button>
             </el-form-item>
-            <el-form-item label="Xml路径">
+            <el-form-item style="margin-top: 20px" prop="mapperXmlPath" label="Xml路径">
               <el-col :span="12">
                 <el-input v-model="xmlPath" disabled/>
               </el-col>
@@ -441,12 +439,13 @@
                 </el-switch>
               </el-form-item>
             </el-row>
-            <el-form-item label="路径">
+            <el-form-item prop="entityPath" style="margin-top: 10px" label="路径">
               <el-col :span="12">
                 <el-input v-model="form.entity.path" disabled/>
               </el-col>
               <el-button type="primary" style="margin-left: 100px;"
-                         @click="dialogTableVisible = true; myOptionItem = form.entity; myOptionItemType= 8" plain>选择路径
+                         @click="dialogTableVisible = true; myOptionItem = form.entity; myOptionItemType= 8;"
+                         plain>选择路径
               </el-button>
             </el-form-item>
           </el-collapse-item>
@@ -460,13 +459,13 @@
                   <el-input v-model="form.tableName" :disabled="true"/>
                 </el-col>
               </el-form-item>
-              <el-form-item label="作者名">
+              <el-form-item prop="authorName" style="margin-top: 20px" label="作者名">
                 <el-col :span="12">
                   <el-input v-model="form.author"/>
                 </el-col>
               </el-form-item>
               <el-form-item>
-                <el-col :span="12">
+                <el-col hidden="hidden" :span="12">
                   <el-switch
                     v-model="form.isPaging"
                     active-text="分页"/>
@@ -478,7 +477,7 @@
             </el-row>
           </el-collapse-item>
         </el-collapse>
-        <el-button style="margin-left: 100px;" type="success" @click="generateCode()">代码生成</el-button>
+        <el-button style="margin-left: 100px;" type="success" @click="generateCode('form')">代码生成</el-button>
         <el-button type="primary">确定</el-button>
       </el-form>
     </el-container>
@@ -492,6 +491,94 @@
 
   export default {
     data() {
+      var controllerPath = (rule, value, callback) => {
+        if (this.form.controller.generate) {
+          if (this.form.controller.path === '') {
+            callback(new Error('请选择网关层的Controller类生成路径'));
+          } else {
+            callback();
+          }
+        }
+      };
+      var servicePath = (rule, value, callback) => {
+        if (this.form.service.generate) {
+          if (this.form.service.path === '') {
+            callback(new Error('请选择网关层的Service类生成路径'));
+          } else {
+            callback();
+          }
+        }
+      };
+      var facadePath = (rule, value, callback) => {
+        if (this.form.facade.generate) {
+          if (this.form.facade.path === '') {
+            callback(new Error('请选择Facade类的生成路径'));
+          } else {
+            callback();
+          }
+        }
+      };
+      var facadeImplPath = (rule, value, callback) => {
+        if (this.form.facade.generate) {
+          if (this.facadeImplPath === '') {
+            callback(new Error('请选择Facade实现类的生成路径'));
+          } else {
+            callback();
+          }
+        }
+      };
+      var dtoPath = (rule, value, callback) => {
+        if (this.form.dto.generate) {
+          if (this.form.dto.path === '') {
+            callback(new Error('请选择DTO类的生成路径'));
+          } else {
+            callback();
+          }
+        }
+      };
+      var mainServicePath = (rule, value, callback) => {
+        if (this.form.mainService.generate) {
+          if (this.form.mainService.path === '') {
+            callback(new Error('请选择Main层的Service类生成路径'));
+          } else {
+            callback();
+          }
+        }
+      };
+      var mapperPath = (rule, value, callback) => {
+        if (this.form.mapper.generate) {
+          if (this.form.mapper.path === '') {
+            callback(new Error('请选择Mapper类的生成路径'));
+          } else {
+            callback();
+          }
+        }
+      };
+      var mapperXmlPath = (rule, value, callback) => {
+        if (this.form.mapper.generate) {
+          if (this.form.mapper.path === '') {
+            callback(new Error('请选择Xml文件的生成路径'));
+          } else {
+            callback();
+          }
+        }
+      };
+      var entityPath = (rule, value, callback) => {
+        if (this.form.entity.generate) {
+          if (this.form.entity.path === '') {
+            callback(new Error('请选择Entity类的生成路径'));
+          } else {
+            callback();
+          }
+        }
+      };
+      var authorName = (rule, value, callback) => {
+        if (this.form.author === '') {
+          callback(new Error('请输入作者名称'));
+        } else {
+          callback();
+        }
+      };
       return {
         transferIndex: null,
         contextMenuData: {
@@ -503,7 +590,7 @@
           menulists: [
             {
               fnHandler: 'updateDate',
-              icoName: 'icon-edit',
+              icoName: 'el-icon-edit',
               btnName: '修改'
             },
             {
@@ -621,7 +708,7 @@
           isPaging: true,
           tableName: 't_xxx',
           encoding: '',
-          author: 'user',
+          author: 'minivision',
           controller: {
             name: 'XxxController',
             packageName: 'com.minivision.sms.agw.gateway.controller.xxx',
@@ -681,8 +768,38 @@
         filePath: '',
 
         rules: {
+          controllerPath: [
+            {validator: controllerPath, trigger: 'change'}
+          ],
+          servicePath: [
+            {validator: servicePath, trigger: 'change'}
+          ],
+          dtoPath: [
+            {validator: dtoPath, trigger: 'change'}
+          ],
+          facadePath: [
+            {validator: facadePath, trigger: 'change'}
+          ],
+          facadeImplPath: [
+            {validator: facadeImplPath, trigger: 'change'}
+          ],
+          mainServicePath: [
+            {validator: mainServicePath, trigger: 'change'}
+          ],
+          mapperPath: [
+            {validator: mapperPath, trigger: 'change'}
+          ],
+          mapperXmlPath: [
+            {validator: mapperXmlPath, trigger: 'change'}
+          ],
+          entityPath: [
+            {validator: entityPath, trigger: 'change'}
+          ],
+          authorName: [
+            {validator: authorName, trigger: 'change'}
+          ],
           connectionName: [
-            {required: true, message: '请输入名称', trigger: 'blur'}
+            {required: true, message: '请输入连接名称', trigger: 'blur'}
           ],
           databaseType: [
             {required: true, message: '请选择数据类型', trigger: 'blur'}
@@ -691,7 +808,7 @@
             {required: true, message: '请输入主机名/IP地址', trigger: 'blur'}
           ],
           port: [
-            {required: true, message: '请输入端口', trigger: 'blur'}
+            {required: true, message: '请输入端口号', trigger: 'blur'}
           ],
           userName: [
             {required: true, message: '请输入用户名', trigger: 'blur'}
@@ -724,7 +841,8 @@
             encoding: json.encoding
           }
         this.dialogEditVisible = true
-      },
+      }
+      ,
       deleteCheckConnection(key) {
         const cons = JSON.parse(getLocalStorage('connectionsIndex'))
         removeLocalStorage(key)
@@ -741,7 +859,8 @@
           }
         }
         this.loadConnection()
-      },
+      }
+      ,
       showMenu(index) {
         let myContext = document.getElementById('myContext')
         let myContextList = myContext.getElementsByClassName('vue-contextmenu-listWrapper')
@@ -753,76 +872,80 @@
           x,
           y
         };
-      },
+      }
+      ,
       handleTreeClickByXml(data) {
         this.dialogTableXmlVisible = false
-        this.xmlPath = data.value
-      },
+        this.xmlPath = data.value + '\\src\\main\\resources\\'
+      }
+      ,
       handleTreeClickByImpl(data) {
         this.dialogTableImplVisible = false
         if (this.form.entity.path === '') {
-          this.form.entity.path = data.value
+          this.form.entity.path = data.value + '\\src\\main\\java\\'
         }
         if (this.form.mapper.path === '') {
-          this.form.mapper.path = data.value
+          this.form.mapper.path = data.value + '\\src\\main\\java\\'
         }
         if (this.form.mainService.path === '') {
-          this.form.mainService.path = data.value
+          this.form.mainService.path = data.value + '\\src\\main\\java\\'
         }
-        this.facadeImplPath = data.value
-      },
+        this.facadeImplPath = data.value + '\\src\\main\\java\\'
+      }
+      ,
       handleTreeClick(data) {
         this.dialogTableVisible = false
         if (this.myOptionItemType === 1 && this.form.service.path === '') {
-          this.form.service.path = data.value
+          this.form.service.path = data.value + '\\src\\main\\java\\'
         }
         if (this.myOptionItemType === 2 && this.form.controller.path === '') {
-          this.form.controller.path = data.value
+          this.form.controller.path = data.value + '\\src\\main\\java\\'
         }
 
         if (this.myOptionItemType === 4 && this.form.dto.path === '') {
-          this.form.dto.path = data.value
+          this.form.dto.path = data.value + '\\src\\main\\java\\'
         }
         if (this.myOptionItemType === 5 && this.form.facade.path === '') {
-          this.form.facade.path = data.value
+          this.form.facade.path = data.value + '\\src\\main\\java\\'
         }
 
 
         if ((this.myOptionItemType === 3 && this.form.entity.path === '') || (this.myOptionItemType === 3 && this.form.mapper.path === '')) {
           if (this.form.mapper.path === '') {
-            this.form.mapper.path = data.value
+            this.form.mapper.path = data.value + '\\src\\main\\java\\'
           }
           if (this.facadeImplPath === '') {
-            this.facadeImplPath = data.value
+            this.facadeImplPath = data.value + '\\src\\main\\java\\'
           }
           if (this.form.entity.path === '') {
-            this.form.entity.path = data.value
+            this.form.entity.path = data.value + '\\src\\main\\java\\'
           }
         }
         if ((this.myOptionItemType === 6 && this.form.mainService.path === '') || (this.myOptionItemType === 6 && this.form.entity.path === '')) {
           if (this.form.mainService.path === '') {
-            this.form.mainService.path = data.value
+            this.form.mainService.path = data.value + '\\src\\main\\java\\'
           }
           if (this.facadeImplPath === '') {
-            this.facadeImplPath = data.value
+            this.facadeImplPath = data.value + '\\src\\main\\java\\'
           }
           if (this.form.entity.path === '') {
-            this.form.entity.path = data.value
+            this.form.entity.path = data.value + '\\src\\main\\java\\'
           }
         }
         if ((this.myOptionItemType === 8 && this.form.mapper.path === '') || (this.myOptionItemType === 8 && this.form.mainService.path === '')) {
           if (this.form.mapper.path === '') {
-            this.form.mapper.path = data.value
+            this.form.mapper.path = data.value + '\\src\\main\\java\\'
           }
           if (this.facadeImplPath === '') {
-            this.facadeImplPath = data.value
+            this.facadeImplPath = data.value + '\\src\\main\\java\\'
           }
           if (this.form.mainService.path === '') {
-            this.form.mainService.path = data.value
+            this.form.mainService.path = data.value + '\\src\\main\\java\\'
           }
         }
-        this.myOptionItem.path = data.value
-      },
+        this.myOptionItem.path = data.value + '\\src\\main\\java\\'
+      }
+      ,
       loadNode(node, resolve) {
         if (node.level === 0) {
           const jsonString = {
@@ -847,9 +970,9 @@
               }
               return resolve([])
             })
-
         }
-      },
+      }
+      ,
       getObjectURL(file) {
         var url = null;
         if (window.createObjcectURL != undefined) {
@@ -860,14 +983,17 @@
           url = window.webkitURL.createObjectURL(file);
         }
         return url;
-      },
+      }
+      ,
       browseFolder(path) {
         let myFile = this.$refs['myFile'].files[0]
         var objURL = this.getObjectURL(myFile)
         window.open(objURL)
-      },
+      }
+      ,
       handleChange(val) {
-      },
+      }
+      ,
       updateConnection(updForm) {
         const that = this
         const localStorage = getLocalStorage(that.nowConnectionKey);
@@ -900,7 +1026,8 @@
         setLocalStorage('connectionsIndex', JSON.stringify(indexInJson))
         this.dialogEditVisible = false
         this.loadConnection()
-      },
+      }
+      ,
       popMenu(e) {
         // alert(1);
         const self = this
@@ -913,7 +1040,8 @@
         } else if (e.button === 0) {
           self.mousePosition = ['close']
         }
-      },
+      }
+      ,
       list_item_click(it) {
         switch (it) {
           case 0:
@@ -923,13 +1051,16 @@
             alert('第二项被点击')
             break
         }
-      },
+      }
+      ,
       rightShow() {
         alert('right-click')
-      },
+      }
+      ,
       loadDatabase(connection) {
         alert(connection)
-      },
+      }
+      ,
       openDialogNewConnection() {
         this.saveForm =
           {
@@ -944,80 +1075,90 @@
             encoding: 'UTF-8'
           }
         this.dialogVisible = true
-      },
+      }
+      ,
 
       closeDialogUpdateConnection(form) {
         this.dialogEditVisible = false
         this.$refs[form].resetFields()
         this.loadConnection()
-      },
+      }
+      ,
       closeDialogNewConnection(form) {
         this.dialogVisible = false
         this.$refs[form].resetFields()
         this.loadConnection()
-      },
-      generateCode() {
-        const jsonString = {
-          tableName: this.form.tableName,
-          encoding: 'utf-8',
-          author: this.form.author,
-          xmlPath: this.xmlPath,
-          facadeImplPath: this.facadeImplPath,
-          mapperName: this.form.mapper.name,
-          primaryKey: this.form.entity.id,
-          dataSource: this.connectionForm,
-          controller: {
-            name: this.form.controller.name,
-            packageName: this.form.controller.packageName,
-            path: this.form.controller.path,
-            isGenerate: this.form.controller.generate
-          },
-          service: {
-            name: this.form.service.name,
-            packageName: this.form.service.packageName,
-            path: this.form.service.path,
-            isGenerate: this.form.service.generate
-          },
-          dto: {
-            name: this.form.dto.name,
-            packageName: this.form.dto.packageName,
-            path: this.form.dto.path,
-            isGenerate: this.form.dto.generate
-          },
-          entity: {
-            name: this.form.entity.name,
-            packageName: this.form.entity.packageName,
-            path: this.form.entity.path,
-            isGenerate: this.form.entity.generate
-          },
-          mapper: {
-            name: this.form.mapper.name,
-            packageName: this.form.mapper.packageName,
-            path: this.form.mapper.path,
-            isGenerate: this.form.mapper.generate
-          },
-          facade: {
-            name: this.form.facade.name,
-            packageName: this.form.facade.packageName,
-            path: this.form.facade.path,
-            isGenerate: this.form.facade.generate
-          },
-          mainService: {
-            name: this.form.mainService.name,
-            packageName: this.form.mainService.packageName,
-            path: this.form.mainService.path,
-            isGenerate: this.form.mainService.generate
-          }
-        }
-        doPost(JSON.stringify(jsonString), '/code/generate')
-          .then(res => {
-            if (res.data.code === 1) {
-              this.$message.success(res.data.msg[0].msgText);
-            } else {
-              this.$message.error(res.data.msg[0].msgText);
+      }
+      ,
+      generateCode(form) {
+        this.$refs[form].validate((valid) => {
+          if (!valid) {
+            return false;
+          } else {
+            const jsonString = {
+              tableName: this.form.tableName,
+              encoding: 'utf-8',
+              author: this.form.author,
+              xmlPath: this.xmlPath,
+              facadeImplPath: this.facadeImplPath,
+              mapperName: this.form.mapper.name,
+              primaryKey: this.form.entity.id,
+              dataSource: this.connectionForm,
+              controller: {
+                name: this.form.controller.name,
+                packageName: this.form.controller.packageName,
+                path: this.form.controller.path,
+                isGenerate: this.form.controller.generate
+              },
+              service: {
+                name: this.form.service.name,
+                packageName: this.form.service.packageName,
+                path: this.form.service.path,
+                isGenerate: this.form.service.generate
+              },
+              dto: {
+                name: this.form.dto.name,
+                packageName: this.form.dto.packageName,
+                path: this.form.dto.path,
+                isGenerate: this.form.dto.generate
+              },
+              entity: {
+                name: this.form.entity.name,
+                packageName: this.form.entity.packageName,
+                path: this.form.entity.path,
+                isGenerate: this.form.entity.generate
+              },
+              mapper: {
+                name: this.form.mapper.name,
+                packageName: this.form.mapper.packageName,
+                path: this.form.mapper.path,
+                isGenerate: this.form.mapper.generate
+              },
+              facade: {
+                name: this.form.facade.name,
+                packageName: this.form.facade.packageName,
+                path: this.form.facade.path,
+                isGenerate: this.form.facade.generate
+              },
+              mainService: {
+                name: this.form.mainService.name,
+                packageName: this.form.mainService.packageName,
+                path: this.form.mainService.path,
+                isGenerate: this.form.mainService.generate
+              }
             }
-          })
-      },
+            doPost(JSON.stringify(jsonString), '/code/generate')
+              .then(res => {
+                if (res.data.code === 1) {
+                  this.$message.success(res.data.msg[0].msgText);
+                } else {
+                  this.$message.error(res.data.msg[0].msgText);
+                }
+              })
+          }
+        })
+      }
+      ,
       handleKey(key) {
         if (getLocalStorage(key) == null) {
           if (getLocalStorage('connectionsIndex') == null) {
@@ -1030,7 +1171,8 @@
             return idx
           }
         }
-      },
+      }
+      ,
       saveNewConnection(form) {
         this.$refs[form].validate((valid) => {
           if (valid) {
@@ -1052,10 +1194,12 @@
             return false
           }
         })
-      },
+      }
+      ,
       handleOpen(key, keyPath) {
         // doPost
-      },
+      }
+      ,
       handleSelect(connection, keyPath) {
         const that = this
         doPost(getLocalStorage(connection), '/database/connect')
@@ -1075,7 +1219,8 @@
               setLocalStorage('connectionsIndex', JSON.stringify(that.connections))
             }
           })
-      },
+      }
+      ,
       handleClick(tableName, connection) {
         const json = {'tableName': tableName}
         const that = this
@@ -1092,16 +1237,20 @@
               that.form.entity = response.entity
               that.form.mainService = response.mainService
               that.form.facade = response.facade
+              that.form.tableName = response.tableName
               this.connectionForm = JSON.parse(getLocalStorage(connection.key))
             }
           })
-      },
+      }
+      ,
       onSubmit() {
-      },
+      }
+      ,
       handleClose(done) {
         this.loadConnection()
         done()
-      },
+      }
+      ,
       loadConnection() {
         const indexInJson = JSON.parse(getLocalStorage('connectionsIndex'))
         if (indexInJson !== null && indexInJson.length !== 0) {
@@ -1116,8 +1265,10 @@
           }
         }
         this.connections = indexInJson
-      },
-    },
+      }
+      ,
+    }
+    ,
     created() {
       this.connectionForm =
         {
