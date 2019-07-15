@@ -69,7 +69,7 @@
                 v-model="saveForm.password"
                 name="password"
                 auto-complete="new-password"
-                type="text"
+                type="password"
                 size="mini"/>
             </el-form-item>
           </el-col>
@@ -155,8 +155,8 @@
               <el-input
                 v-model="updForm.password"
                 name="password"
+                type="password"
                 auto-complete="new-password"
-                type="text"
                 size="mini"/>
             </el-form-item>
           </el-col>
