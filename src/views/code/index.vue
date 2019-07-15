@@ -255,7 +255,7 @@
             </el-row>
             <el-form-item style="margin-top: 10px" prop="controllerPath" label="路径">
               <el-col :span="12">
-                <el-input v-model="form.controller.path"/>
+                <el-input v-model="form.controller.path" disabled/>
               </el-col>
               <el-button type="primary" style="margin-left: 100px;"
                          @click="dialogTableVisible = true; myOptionItem = form.controller; myOptionItemType= 1" plain>
