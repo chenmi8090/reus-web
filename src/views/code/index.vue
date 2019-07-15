@@ -397,7 +397,7 @@
                   :span="12">
                 </el-switch>
               </el-form-item>
-              <el-form-item style="margin-top: 20px" label="Mapper类名（自定义）">
+              <el-form-item style="margin-top: 20px" prop="mapperFileName" label="Xml文件名称（自定义）">
                 <el-col :span="12">
                   <el-input v-model="form.mapper.name"/>
                 </el-col>
@@ -540,6 +540,15 @@
         if (this.form.mainService.generate) {
           if (this.form.mainService.path === '') {
             callback(new Error('请选择Main层的Service类生成路径'));
+          } else {
+            callback();
+          }
+        }
+      };
+      var mapperFileName = (rule, value, callback) => {
+        if (this.form.mapper.generate) {
+          if (this.form.mapper.name === '') {
+            callback(new Error('Xml文件名称不能为空'));
           } else {
             callback();
           }
@@ -785,6 +794,9 @@
           ],
           mainServicePath: [
             {validator: mainServicePath, trigger: 'change'}
+          ],
+          mapperFileName: [
+            {validator: mapperFileName, trigger: 'change'}
           ],
           mapperPath: [
             {validator: mapperPath, trigger: 'change'}
@@ -1093,6 +1105,7 @@
       generateCode(form) {
         this.$refs[form].validate((valid) => {
           if (!valid) {
+            this.$message.error('请完善参数后再继续操作按钮！');
             return false;
           } else {
             const jsonString = {
