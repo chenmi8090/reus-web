@@ -416,7 +416,7 @@
                 <el-input v-model="xmlPath" disabled/>
               </el-col>
               <el-button type="primary" style="margin-left: 100px;"
-                         @click="dialogTableXmlVisible = true; myOptionItemType= 7" plain>选择路径
+                         @click="dialogTableVisible = true; myOptionItemType= 7" plain>选择路径
               </el-button>
             </el-form-item>
           </el-collapse-item>
@@ -921,7 +921,6 @@
           this.form.facade.path = data.value + '\\src\\main\\java\\'
         }
 
-
         if ((this.myOptionItemType === 3 && this.form.entity.path === '') || (this.myOptionItemType === 3 && this.form.mapper.path === '')) {
           if (this.form.mapper.path === '') {
             this.form.mapper.path = data.value + '\\src\\main\\java\\'
@@ -932,8 +931,10 @@
           if (this.form.entity.path === '') {
             this.form.entity.path = data.value + '\\src\\main\\java\\'
           }
+          this.xmlPath = data.value + '\\src\\main\\resources\\'
         }
-        if ((this.myOptionItemType === 6 && this.form.mainService.path === '') || (this.myOptionItemType === 6 && this.form.entity.path === '')) {
+        if ((this.myOptionItemType === 6 && this.form.mainService.path === '') || (this.myOptionItemType === 6 && this.form.entity.path === '')
+          || (this.myOptionItemType === 6 && this.xmlPath !== '')) {
           if (this.form.mainService.path === '') {
             this.form.mainService.path = data.value + '\\src\\main\\java\\'
           }
@@ -943,6 +944,7 @@
           if (this.form.entity.path === '') {
             this.form.entity.path = data.value + '\\src\\main\\java\\'
           }
+          this.xmlPath = data.value + '\\src\\main\\resources\\'
         }
         if ((this.myOptionItemType === 8 && this.form.mapper.path === '') || (this.myOptionItemType === 8 && this.form.mainService.path === '')) {
           if (this.form.mapper.path === '') {
@@ -954,10 +956,10 @@
           if (this.form.mainService.path === '') {
             this.form.mainService.path = data.value + '\\src\\main\\java\\'
           }
+          this.xmlPath = data.value + '\\src\\main\\resources\\'
         }
         this.myOptionItem.path = data.value + '\\src\\main\\java\\'
-      }
-      ,
+      },
       loadNode(node, resolve) {
         if (node.level === 0) {
           const jsonString = {
