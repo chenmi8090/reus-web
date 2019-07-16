@@ -65,7 +65,7 @@
                 v-model="saveForm.password"
                 name="password"
                 auto-complete="new-password"
-                type="password"
+                type="text"
                 size="mini"/>
             </el-form-item>
           </el-col>
@@ -151,7 +151,7 @@
               <el-input
                 v-model="updForm.password"
                 name="password"
-                type="password"
+                type="text"
                 auto-complete="new-password"
                 size="mini"/>
             </el-form-item>
@@ -491,6 +491,8 @@
           } else {
             callback();
           }
+        } else {
+          callback();
         }
       };
       var servicePath = (rule, value, callback) => {
@@ -500,6 +502,8 @@
           } else {
             callback();
           }
+        } else {
+          callback();
         }
       };
       var facadePath = (rule, value, callback) => {
@@ -509,6 +513,8 @@
           } else {
             callback();
           }
+        } else {
+          callback();
         }
       };
       var facadeImplPath = (rule, value, callback) => {
@@ -518,6 +524,8 @@
           } else {
             callback();
           }
+        } else {
+          callback();
         }
       };
       var dtoPath = (rule, value, callback) => {
@@ -527,6 +535,8 @@
           } else {
             callback();
           }
+        } else {
+          callback();
         }
       };
       var mainServicePath = (rule, value, callback) => {
@@ -536,6 +546,8 @@
           } else {
             callback();
           }
+        } else {
+          callback();
         }
       };
       var mapperFileName = (rule, value, callback) => {
@@ -545,6 +557,8 @@
           } else {
             callback();
           }
+        } else {
+          callback();
         }
       };
       var mapperPath = (rule, value, callback) => {
@@ -554,6 +568,8 @@
           } else {
             callback();
           }
+        } else {
+          callback();
         }
       };
       var mapperXmlPath = (rule, value, callback) => {
@@ -563,6 +579,8 @@
           } else {
             callback();
           }
+        } else {
+          callback();
         }
       };
       var entityPath = (rule, value, callback) => {
@@ -572,6 +590,8 @@
           } else {
             callback();
           }
+        } else {
+          callback();
         }
       };
       var authorName = (rule, value, callback) => {
@@ -895,6 +915,7 @@
         if (this.form.mainService.path === '') {
           this.form.mainService.path = data.value + '\\src\\main\\java\\'
         }
+        this.xmlPath = data.value + '\\src\\main\\resources\\'
         this.facadeImplPath = data.value + '\\src\\main\\java\\'
       }
       ,
@@ -1159,6 +1180,19 @@
               .then(res => {
                 if (res.data.code === 1) {
                   this.$message.success(res.data.msg[0].msgText);
+                  this.$alert('网关层Controller类生成路径：' + this.form.controller.path + '</br>'
+                              + '网关层Service类生成路径：' + this.form.service.path + '</br>'
+                              + 'Facade接口类生成路径：' + this.form.facade.path + '</br>'
+                              + 'Facade实现类生成路径：' + this.facadeImplPath + '</br>'
+                              + 'DTO类生成路径：' + this.form.dto.path + '</br>'
+                              + 'Main层Service类生成路径：' + this.form.mainService.path + '</br>'
+                              + 'Mapper接口类生成路径：' + this.form.mapper.path + '</br>'
+                              + 'Xml文件生成路径：' + this.xmlPath + '</br>'
+                              + 'Entity类生成路径：' + this.form.entity.path + '</br>'
+                              , '生成文件的路径：', {
+                    confirmButtonText: '确定',
+                    dangerouslyUseHTMLString: true
+                  });
                 } else {
                   this.$message.error(res.data.msg[0].msgText);
                 }
