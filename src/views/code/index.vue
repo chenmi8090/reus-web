@@ -6,10 +6,6 @@
       <el-tree :props="defaultProps" :load="loadNode" @node-click="handleTreeClick" lazy></el-tree>
     </el-dialog>
 
-    <el-dialog title="选择路径" :visible.sync="dialogTableXmlVisible">
-      <el-tree :props="defaultProps" :load="loadNode" @node-click="handleTreeClickByXml" lazy></el-tree>
-    </el-dialog>
-
     <el-dialog title="选择路径" :visible.sync="dialogTableImplVisible">
       <el-tree :props="defaultProps" :load="loadNode" @node-click="handleTreeClickByImpl" lazy></el-tree>
     </el-dialog>
@@ -415,9 +411,6 @@
               <el-col :span="12">
                 <el-input v-model="xmlPath" disabled/>
               </el-col>
-              <el-button type="primary" style="margin-left: 100px;"
-                         @click="dialogTableVisible = true; myOptionItemType= 7" plain>选择路径
-              </el-button>
             </el-form-item>
           </el-collapse-item>
         </el-collapse>
