@@ -323,9 +323,9 @@
           </el-collapse-item>
         </el-collapse>
         <el-collapse v-model="activeNames" class="collapse-title">
-          <el-collapse-item title="Dto" name="5" accordion>
+          <el-collapse-item title="DTO" name="5" accordion>
             <el-row>
-              <el-form-item label="Dto类包名">
+              <el-form-item label="DTO类包名">
                 <el-col :span="12">
                   <el-input v-model="form.dto.packageName"/>
                 </el-col>
@@ -1180,6 +1180,30 @@
               .then(res => {
                 if (res.data.code === 1) {
                   this.$message.success(res.data.msg[0].msgText);
+                  // 如果数据不需要生成那么就不需要展示
+                  if (!this.form.controller.generate) {
+                    this.form.controller.path = ''
+                  }
+                  if (!this.form.service.generate) {
+                    this.form.service.path = ''
+                  }
+                  if (!this.form.facade.generate) {
+                    this.form.facade.path = ''
+                    this.facadeImplPath = ''
+                  }
+                  if (!this.form.dto.generate) {
+                    this.form.dto.path = ''
+                  }
+                  if (!this.form.mainService.generate) {
+                    this.form.mainService.path = ''
+                  }
+                  if (!this.form.mapper.generate) {
+                    this.form.mapper.path = ''
+                    this.xmlPath = ''
+                  }
+                  if (!this.form.entity.generate) {
+                    this.form.entity.path = ''
+                  }
                   this.$alert('网关层Controller类生成路径：' + this.form.controller.path + '</br>'
                               + '网关层Service类生成路径：' + this.form.service.path + '</br>'
                               + 'Facade接口类生成路径：' + this.form.facade.path + '</br>'
