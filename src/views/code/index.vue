@@ -666,7 +666,7 @@
           icon: 'iconfont icon-bofang', // 选填 字体图标 class
         }],
         parentPackageName: '',
-        newParentPackageName: '',
+        newParentPackageName: 'com.minivision.sms.',
         connections: [],
         connectionsNew: [],
         // tables: [],
@@ -1311,6 +1311,9 @@
           })
       },
       onSubmit(newParentPackageName) {
+        if(this.parentPackageName === '') {
+          this.parentPackageName = 'com.minivision.sms.'
+        }
         this.form.controller.packageName = this.form.controller.packageName.replace(this.parentPackageName, newParentPackageName)
         this.form.mapper.packageName = this.form.mapper.packageName.replace(this.parentPackageName, newParentPackageName)
         this.form.service.packageName = this.form.service.packageName.replace(this.parentPackageName, newParentPackageName)
