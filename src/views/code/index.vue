@@ -883,8 +883,7 @@
             encoding: json.encoding
           }
         this.dialogEditVisible = true
-      }
-      ,
+      },
       deleteCheckConnection(key) {
         const cons = JSON.parse(getLocalStorage('connectionsIndex'))
         removeLocalStorage(key)
@@ -901,8 +900,7 @@
           }
         }
         this.loadConnection()
-      }
-      ,
+      },
       showMenu(index) {
         let myContext = document.getElementById('myContext')
         let myContextList = myContext.getElementsByClassName('vue-contextmenu-listWrapper')
@@ -914,13 +912,11 @@
           x,
           y
         };
-      }
-      ,
+      },
       handleTreeClickByXml(data) {
         this.dialogTableXmlVisible = false
         this.xmlPath = data.value + '\\src\\main\\resources\\'
-      }
-      ,
+      },
       handleTreeClickByImpl(data) {
         this.dialogTableImplVisible = false
         if (this.form.entity.path === '') {
@@ -934,8 +930,7 @@
         }
         this.xmlPath = data.value + '\\src\\main\\resources\\'
         this.facadeImplPath = data.value + '\\src\\main\\java\\'
-      }
-      ,
+      },
       handleTreeClick(data) {
         this.dialogTableVisible = false
         if (this.myOptionItemType === 1 && this.form.service.path === '') {
@@ -1016,8 +1011,7 @@
               return resolve([])
             })
         }
-      }
-      ,
+      },
       getObjectURL(file) {
         var url = null;
         if (window.createObjcectURL != undefined) {
@@ -1028,17 +1022,14 @@
           url = window.webkitURL.createObjectURL(file);
         }
         return url;
-      }
-      ,
+      },
       browseFolder(path) {
         let myFile = this.$refs['myFile'].files[0]
         var objURL = this.getObjectURL(myFile)
         window.open(objURL)
-      }
-      ,
+      },
       handleChange(val) {
-      }
-      ,
+      },
       updateConnection(updForm) {
         const that = this
         const localStorage = getLocalStorage(that.nowConnectionKey);
@@ -1071,8 +1062,7 @@
         setLocalStorage('connectionsIndex', JSON.stringify(indexInJson))
         this.dialogEditVisible = false
         this.loadConnection()
-      }
-      ,
+      },
       popMenu(e) {
         // alert(1);
         const self = this
@@ -1085,8 +1075,7 @@
         } else if (e.button === 0) {
           self.mousePosition = ['close']
         }
-      }
-      ,
+      },
       list_item_click(it) {
         switch (it) {
           case 0:
@@ -1096,16 +1085,13 @@
             alert('第二项被点击')
             break
         }
-      }
-      ,
+      },
       rightShow() {
         alert('right-click')
-      }
-      ,
+      },
       loadDatabase(connection) {
         alert(connection)
-      }
-      ,
+      },
       openDialogNewConnection() {
         this.saveForm =
           {
@@ -1120,21 +1106,17 @@
             encoding: 'UTF-8'
           }
         this.dialogVisible = true
-      }
-      ,
-
+      },
       closeDialogUpdateConnection(form) {
         this.dialogEditVisible = false
         this.$refs[form].resetFields()
         this.loadConnection()
-      }
-      ,
+      },
       closeDialogNewConnection(form) {
         this.dialogVisible = false
         this.$refs[form].resetFields()
         this.loadConnection()
-      }
-      ,
+      },
       generateCode(form) {
         this.$refs[form].validate((valid) => {
           if (!valid) {
@@ -1240,8 +1222,7 @@
               })
           }
         })
-      }
-      ,
+      },
       handleKey(key) {
         if (getLocalStorage(key) == null) {
           if (getLocalStorage('connectionsIndex') == null) {
@@ -1254,8 +1235,7 @@
             return idx
           }
         }
-      }
-      ,
+      },
       saveNewConnection(form) {
         this.$refs[form].validate((valid) => {
           if (valid) {
@@ -1277,12 +1257,10 @@
             return false
           }
         })
-      }
-      ,
+      },
       handleOpen(key, keyPath) {
         // doPost
-      }
-      ,
+      },
       handleSelect(connection, keyPath) {
         const that = this
         doPost(getLocalStorage(connection), '/database/connect')
@@ -1302,8 +1280,7 @@
               setLocalStorage('connectionsIndex', JSON.stringify(that.connections))
             }
           })
-      }
-      ,
+      },
       handleClick(tableName, connection) {
         const json = {'tableName': tableName}
         const that = this
@@ -1332,8 +1309,7 @@
               this.connectionForm = JSON.parse(getLocalStorage(connection.key))
             }
           })
-      }
-      ,
+      },
       onSubmit(newParentPackageName) {
         this.form.controller.packageName = this.form.controller.packageName.replace(this.parentPackageName, newParentPackageName)
         this.form.mapper.packageName = this.form.mapper.packageName.replace(this.parentPackageName, newParentPackageName)
@@ -1342,13 +1318,11 @@
         this.form.entity.packageName = this.form.entity.packageName.replace(this.parentPackageName, newParentPackageName)
         this.form.mainService.packageName = this.form.mainService.packageName.replace(this.parentPackageName, newParentPackageName)
         this.form.facade.packageName = this.form.facade.packageName.replace(this.parentPackageName, newParentPackageName)
-      }
-      ,
+      },
       handleClose(done) {
         this.loadConnection()
         done()
-      }
-      ,
+      },
       loadConnection() {
         const indexInJson = JSON.parse(getLocalStorage('connectionsIndex'))
         if (indexInJson !== null && indexInJson.length !== 0) {
@@ -1363,10 +1337,8 @@
           }
         }
         this.connections = indexInJson
-      }
-      ,
-    }
-    ,
+      },
+    },
     created() {
       this.connectionForm =
         {
@@ -1380,7 +1352,6 @@
           database: 'sms_prod',
           encoding: 'UTF-8'
         }
-
       this.saveForm = {
         index: -1,
         connectionName: '',
@@ -1392,7 +1363,6 @@
         database: '',
         encoding: ''
       }
-
       this.loadConnection()
     }
   }
