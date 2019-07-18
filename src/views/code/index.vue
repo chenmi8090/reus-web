@@ -233,7 +233,7 @@
     <el-container>
       <el-form :rules="rules" ref="form" :model="form" label-width="180px">
         <el-collapse v-model="activeNames" class="collapse-title">
-          <el-collapse-item title="Controller" name="1" accordion>
+          <el-collapse-item title="ParentPackageName" name="1" accordion>
             <el-row>
               <el-form-item label="包前缀">
                 <el-col :span="12">
