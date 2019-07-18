@@ -235,6 +235,21 @@
         <el-collapse v-model="activeNames" class="collapse-title">
           <el-collapse-item title="Controller" name="1" accordion>
             <el-row>
+              <el-form-item label="包前缀">
+                <el-col :span="12">
+                  <el-input v-model="newParentPackageName"/>
+                </el-col>
+                <el-button type="primary" style="margin-left: 100px;"
+                           @click="onSubmit(newParentPackageName)" plain>
+                  替换
+                </el-button>
+              </el-form-item>
+            </el-row>
+          </el-collapse-item>
+        </el-collapse>
+        <el-collapse v-model="activeNames" class="collapse-title">
+          <el-collapse-item title="Controller" name="1" accordion>
+            <el-row>
               <el-form-item label="Controller类包名">
                 <el-col :span="12">
                   <el-input v-model="form.controller.packageName"/>
@@ -650,6 +665,8 @@
           text: '删除',
           icon: 'iconfont icon-bofang', // 选填 字体图标 class
         }],
+        parentPackageName: '',
+        newParentPackageName: '',
         connections: [],
         connectionsNew: [],
         // tables: [],
@@ -1205,18 +1222,18 @@
                     this.form.entity.path = ''
                   }
                   this.$alert('网关层Controller类生成路径：' + this.form.controller.path + '</br>'
-                              + '网关层Service类生成路径：' + this.form.service.path + '</br>'
-                              + 'Facade接口类生成路径：' + this.form.facade.path + '</br>'
-                              + 'Facade实现类生成路径：' + this.facadeImplPath + '</br>'
-                              + 'DTO类生成路径：' + this.form.dto.path + '</br>'
-                              + 'Main层Service类生成路径：' + this.form.mainService.path + '</br>'
-                              + 'Mapper接口类生成路径：' + this.form.mapper.path + '</br>'
-                              + 'Xml文件生成路径：' + this.xmlPath + '</br>'
-                              + 'Entity类生成路径：' + this.form.entity.path + '</br>'
-                              , '生成文件的路径：', {
-                    confirmButtonText: '确定',
-                    dangerouslyUseHTMLString: true
-                  });
+                    + '网关层Service类生成路径：' + this.form.service.path + '</br>'
+                    + 'Facade接口类生成路径：' + this.form.facade.path + '</br>'
+                    + 'Facade实现类生成路径：' + this.facadeImplPath + '</br>'
+                    + 'DTO类生成路径：' + this.form.dto.path + '</br>'
+                    + 'Main层Service类生成路径：' + this.form.mainService.path + '</br>'
+                    + 'Mapper接口类生成路径：' + this.form.mapper.path + '</br>'
+                    + 'Xml文件生成路径：' + this.xmlPath + '</br>'
+                    + 'Entity类生成路径：' + this.form.entity.path + '</br>'
+                    , '生成文件的路径：', {
+                      confirmButtonText: '确定',
+                      dangerouslyUseHTMLString: true
+                    });
                 } else {
                   this.$message.error(res.data.msg[0].msgText);
                 }
@@ -1295,7 +1312,15 @@
             if (res.data.code === 0) {
               this.$message.error(res.data.msg[0].msgText);
             } else {
+              this.parentPackageName = 'com.minivision.sms.'
               const response = res.data.data
+              response.controller.packageName = this.parentPackageName + response.controller.packageName
+              response.mapper.packageName = this.parentPackageName + response.mapper.packageName
+              response.service.packageName = this.parentPackageName + response.service.packageName
+              response.dto.packageName = this.parentPackageName + response.dto.packageName
+              response.entity.packageName = this.parentPackageName + response.entity.packageName
+              response.mainService.packageName = this.parentPackageName + response.mainService.packageName
+              response.facade.packageName = this.parentPackageName + response.facade.packageName
               that.form.controller = response.controller
               that.form.mapper = response.mapper
               that.form.service = response.service
@@ -1309,7 +1334,14 @@
           })
       }
       ,
-      onSubmit() {
+      onSubmit(newParentPackageName) {
+        this.form.controller.packageName = this.form.controller.packageName.replace(this.parentPackageName, newParentPackageName)
+        this.form.mapper.packageName = this.form.mapper.packageName.replace(this.parentPackageName, newParentPackageName)
+        this.form.service.packageName = this.form.service.packageName.replace(this.parentPackageName, newParentPackageName)
+        this.form.dto.packageName = this.form.dto.packageName.replace(this.parentPackageName, newParentPackageName)
+        this.form.entity.packageName = this.form.entity.packageName.replace(this.parentPackageName, newParentPackageName)
+        this.form.mainService.packageName = this.form.mainService.packageName.replace(this.parentPackageName, newParentPackageName)
+        this.form.facade.packageName = this.form.facade.packageName.replace(this.parentPackageName, newParentPackageName)
       }
       ,
       handleClose(done) {
