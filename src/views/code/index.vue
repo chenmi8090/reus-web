@@ -1318,6 +1318,7 @@
         this.form.entity.packageName = this.form.entity.packageName.replace(this.parentPackageName, newParentPackageName)
         this.form.mainService.packageName = this.form.mainService.packageName.replace(this.parentPackageName, newParentPackageName)
         this.form.facade.packageName = this.form.facade.packageName.replace(this.parentPackageName, newParentPackageName)
+        this.parentPackageName = newParentPackageName
       },
       handleClose(done) {
         this.loadConnection()
