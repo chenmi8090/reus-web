@@ -1311,7 +1311,7 @@
           })
       },
       onSubmit(newParentPackageName) {
-        if(this.parentPackageName === '') {
+        if (this.parentPackageName == '' && newParentPackageName != '') {
           this.parentPackageName = 'com.minivision.sms.'
         }
         this.form.controller.packageName = this.form.controller.packageName.replace(this.parentPackageName, newParentPackageName)
