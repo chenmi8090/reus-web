@@ -235,13 +235,13 @@
         <el-collapse v-model="activeNames" class="collapse-title">
           <el-collapse-item title="ParentPackageName" name="8" accordion>
             <el-row>
-              <el-form-item label="包前缀">
+              <el-form-item prop="parentPackage" label="包前缀">
                 <el-col :span="12">
                   <el-input v-model="newParentPackageName"/>
                 </el-col>
                 <el-button type="primary" style="margin-left: 100px;"
                            @click="onSubmit(newParentPackageName)" plain>
-                  替换
+                  确认
                 </el-button>
               </el-form-item>
             </el-row>
@@ -273,12 +273,15 @@
                 选择路径
               </el-button>
             </el-form-item>
-            <el-row>
-              <el-form-item style="margin-top: 10px" label="生成全路径">
-                <el-col :span="12">
-                  <el-input style="width:620px;" disabled v-model="controllerPathUrl"/>
-                </el-col>
-              </el-form-item>
+            <el-row style="text-align: center">
+              <el-tooltip placement="top">
+                <div slot="content">{{this.newParentPackageName + '\.' + this.form.controller.packageName}}</div>
+                <el-button>Controller类完整包名</el-button>
+              </el-tooltip>
+              <el-tooltip placement="top">
+                <div slot="content">{{this.controllerPathUrl}}</div>
+                <el-button>Controller类完整路径</el-button>
+              </el-tooltip>
             </el-row>
           </el-collapse-item>
         </el-collapse>
@@ -307,12 +310,15 @@
                          @click="dialogTableVisible = true; myOptionItem = form.service; myOptionItemType= 2" plain>选择路径
               </el-button>
             </el-form-item>
-            <el-row>
-              <el-form-item style="margin-top: 10px" label="生成全路径">
-                <el-col :span="12">
-                  <el-input style="width:620px;" disabled v-model="servicePathUrl"/>
-                </el-col>
-              </el-form-item>
+            <el-row style="text-align: center">
+              <el-tooltip placement="top">
+                <div slot="content">{{this.newParentPackageName + '\.' + this.form.service.packageName}}</div>
+                <el-button>Service类完整包名</el-button>
+              </el-tooltip>
+              <el-tooltip placement="top">
+                <div slot="content">{{this.servicePathUrl}}</div>
+                <el-button>Service类完整路径</el-button>
+              </el-tooltip>
             </el-row>
           </el-collapse-item>
         </el-collapse>
@@ -341,12 +347,15 @@
                          @click="dialogTableVisible = true; myOptionItem = form.facade; myOptionItemType= 4 " plain>选择路径
               </el-button>
             </el-form-item>
-            <el-row>
-              <el-form-item style="margin-top: 10px" label="生成全路径">
-                <el-col :span="12">
-                  <el-input style="width:620px;" disabled v-model="facadePathUrl"/>
-                </el-col>
-              </el-form-item>
+            <el-row style="text-align: center">
+              <el-tooltip placement="top">
+                <div slot="content">{{this.newParentPackageName + '\.' + this.form.facade.packageName}}</div>
+                <el-button>Facade接口类完整包名</el-button>
+              </el-tooltip>
+              <el-tooltip placement="top">
+                <div slot="content">{{this.facadePathUrl}}</div>
+                <el-button>Facade接口类完整路径</el-button>
+              </el-tooltip>
             </el-row>
             <el-form-item style="margin-top: 10px" prop="facadeImplPath" label="Impl路径">
               <el-col :span="12">
@@ -356,12 +365,15 @@
                          @click="dialogTableImplVisible = true; myOptionItemType= 9 " plain>选择路径
               </el-button>
             </el-form-item>
-            <el-row>
-              <el-form-item style="margin-top: 10px" label="生成全路径">
-                <el-col :span="12">
-                  <el-input style="width:620px;" disabled v-model="facadeImplPathUrl"/>
-                </el-col>
-              </el-form-item>
+            <el-row style="text-align: center">
+              <el-tooltip placement="top">
+                <div slot="content">{{this.newParentPackageName + '\.' + this.form.facade.packageName}}</div>
+                <el-button>Facade实现类完整包名</el-button>
+              </el-tooltip>
+              <el-tooltip placement="top">
+                <div slot="content">{{this.facadeImplPathUrl}}</div>
+                <el-button>Facade实现类完整路径</el-button>
+              </el-tooltip>
             </el-row>
           </el-collapse-item>
         </el-collapse>
@@ -390,6 +402,16 @@
                          @click="dialogTableVisible = true; myOptionItem = form.dto; myOptionItemType= 5" plain>选择路径
               </el-button>
             </el-form-item>
+            <el-row style="text-align: center">
+              <el-tooltip placement="top">
+                <div slot="content">{{this.newParentPackageName + '\.' + this.form.dto.packageName}}</div>
+                <el-button>DTO类完整包名</el-button>
+              </el-tooltip>
+              <el-tooltip placement="top">
+                <div slot="content">{{this.dtoPathUrl}}</div>
+                <el-button>DTO类完整路径</el-button>
+              </el-tooltip>
+            </el-row>
           </el-collapse-item>
         </el-collapse>
         <el-collapse v-model="activeNames" class="collapse-title">
@@ -418,12 +440,15 @@
                 选择路径
               </el-button>
             </el-form-item>
-            <el-row>
-              <el-form-item style="margin-top: 10px" label="生成全路径">
-                <el-col :span="12">
-                  <el-input style="width:620px;" disabled v-model="mainServicePathUrl"/>
-                </el-col>
-              </el-form-item>
+            <el-row style="text-align: center">
+              <el-tooltip placement="top">
+                <div slot="content">{{this.newParentPackageName + '\.' + this.form.mainService.packageName}}</div>
+                <el-button>MainService类完整包名</el-button>
+              </el-tooltip>
+              <el-tooltip placement="top">
+                <div slot="content">{{this.mainServicePathUrl}}</div>
+                <el-button>MainService类完整路径</el-button>
+              </el-tooltip>
             </el-row>
           </el-collapse-item>
         </el-collapse>
@@ -457,24 +482,26 @@
                          @click="dialogTableVisible = true; myOptionItem = form.mapper; myOptionItemType= 6" plain>选择路径
               </el-button>
             </el-form-item>
-            <el-row>
-              <el-form-item style="margin-top: 10px" label="生成全路径">
-                <el-col :span="12">
-                  <el-input style="width:620px;" disabled v-model="mapperPathUrl"/>
-                </el-col>
-              </el-form-item>
+            <el-row style="text-align: center">
+              <el-tooltip placement="top">
+                <div slot="content">{{this.newParentPackageName + '\.' + this.form.mapper.packageName}}</div>
+                <el-button>Mapper类完整包名</el-button>
+              </el-tooltip>
+              <el-tooltip placement="top">
+                <div slot="content">{{this.mapperPathUrl}}</div>
+                <el-button>Mapper类完整路径</el-button>
+              </el-tooltip>
             </el-row>
             <el-form-item style="margin-top: 10px" prop="mapperXmlPath" label="Xml路径">
               <el-col :span="12">
                 <el-input v-model="xmlPath" disabled/>
               </el-col>
             </el-form-item>
-            <el-row>
-              <el-form-item style="margin-top: 10px" label="生成全路径">
-                <el-col :span="12">
-                  <el-input style="width:620px;" disabled v-model="xmlPathUrl"/>
-                </el-col>
-              </el-form-item>
+            <el-row style="text-align: center">
+              <el-tooltip placement="top">
+                <div slot="content">{{this.xmlPathUrl}}</div>
+                <el-button>Xml文件完整路径</el-button>
+              </el-tooltip>
             </el-row>
           </el-collapse-item>
         </el-collapse>
@@ -505,12 +532,15 @@
                          plain>选择路径
               </el-button>
             </el-form-item>
-            <el-row>
-              <el-form-item style="margin-top: 10px" label="生成全路径">
-                <el-col :span="12">
-                  <el-input style="width:620px;" disabled v-model="entityPathUrl"/>
-                </el-col>
-              </el-form-item>
+            <el-row style="text-align: center">
+              <el-tooltip placement="top">
+                <div slot="content">{{this.newParentPackageName + '\.' + this.form.entity.packageName}}</div>
+                <el-button>Entity类完整包名</el-button>
+              </el-tooltip>
+              <el-tooltip placement="top">
+                <div slot="content">{{this.entityPathUrl}}</div>
+                <el-button>Entity类完整路径</el-button>
+              </el-tooltip>
             </el-row>
           </el-collapse-item>
         </el-collapse>
@@ -555,6 +585,13 @@
 
   export default {
     data() {
+      var parentPackage = (rule, value, callback) => {
+        if (this.newParentPackageName == '') {
+          callback(new Error('请完善包前缀信息'));
+        } else {
+          callback();
+        }
+      };
       var controllerPath = (rule, value, callback) => {
         if (this.form.controller.generate) {
           if (this.form.controller.path === '') {
@@ -721,11 +758,10 @@
           text: '删除',
           icon: 'iconfont icon-bofang', // 选填 字体图标 class
         }],
-        parentPackageName: 'com.minivision.sms.',
-        newParentPackageName: 'com.minivision.sms.',
+        parentPackageName: 'com.minivision.sms',
+        newParentPackageName: 'com.minivision.sms',
         connections: [],
         connectionsNew: [],
-        // tables: [],
         optionsEncoding: [
           {
             value: '1',
@@ -806,44 +842,44 @@
           author: 'minivision',
           controller: {
             name: 'XxxController',
-            packageName: 'com.minivision.sms.agw.gateway.controller.xxx',
+            packageName: 'agw.gateway.controller.xxx',
             path: '',
             generate: true
           },
           service: {
             name: 'XxxService',
-            packageName: 'com.minivision.sms.agw.gateway.service.xxx',
+            packageName: 'agw.gateway.service.xxx',
             path: '',
             generate: true
           },
           dto: {
             name: 'XxxDTO',
-            packageName: 'com.minivision.sms.api.domain.dto.xxx',
+            packageName: 'api.domain.dto.xxx',
             path: '',
             generate: true
           },
           entity: {
             id: 'XxxId',
             name: 'Xxx',
-            packageName: 'com.minivision.sms.main.domain.entity.xxx',
+            packageName: 'main.domain.entity.xxx',
             path: '',
             generate: true
           },
           mapper: {
             name: 'XxxMapper',
-            packageName: 'com.minivision.sms.main.domain.mapper.xxx',
+            packageName: 'main.domain.mapper.xxx',
             path: '',
             generate: true
           },
           facade: {
             name: 'XxxFacade',
-            packageName: 'com.minivision.sms.api.domain.facade.xxx',
+            packageName: 'api.domain.facade.xxx',
             path: '',
             generate: true
           },
           mainService: {
             name: 'XxxService',
-            packageName: 'com.minivision.sms.main.domain.service.xxx',
+            packageName: 'main.domain.service.xxx',
             path: '',
             generate: true
           },
@@ -865,11 +901,15 @@
         servicePathUrl: '',
         facadePathUrl: '',
         facadeImplPathUrl: '',
+        dtoPathUrl: '',
         mainServicePathUrl: '',
         mapperPathUrl: '',
         xmlPathUrl: '',
         entityPathUrl: '',
         rules: {
+          parentPackage: [
+            {validator: parentPackage, trigger: 'change'}
+          ],
           controllerPath: [
             {validator: controllerPath, trigger: 'change'}
           ],
@@ -980,14 +1020,15 @@
         this.dialogTableXmlVisible = false
         this.xmlPath = data.value + '\\src\\main\\resources\\'
         this.myOptionItem.path = data.value + '\\src\\main\\java\\'
-        this.controllerPathUrl = this.form.controller.path + this.form.controller.packageName.replace(/\./g, '\\')
-        this.servicePathUrl = this.form.service.path + this.form.service.packageName.replace(/\./g, '\\')
-        this.facadePathUrl = this.form.facade.path + this.form.facade.packageName.replace(/\./g, '\\')
-        this.facadeImplPathUrl = this.facadeImplPath + this.form.facade.packageName.replace(/\./g, '\\')
-        this.mainServicePathUrl = this.form.mainService.path + this.form.mainService.packageName.replace(/\./g, '\\')
-        this.mapperPathUrl = this.form.mapper.path + this.form.mapper.packageName.replace(/\./g, '\\')
-        this.xmlPathUrl = this.xmlPath + 'mapper'
-        this.entityPathUrl = this.form.entity.path + this.form.entity.packageName.replace(/\./g, '\\')
+        this.controllerPathUrl = (this.form.controller.path + this.parentPackageName + this.form.controller.packageName).replace(/\./g, '\\')
+        this.servicePathUrl = (this.form.service.path + this.parentPackageName + this.form.service.packageName).replace(/\./g, '\\')
+        this.facadePathUrl = (this.form.facade.path + this.parentPackageName + this.form.facade.packageName).replace(/\./g, '\\')
+        this.facadeImplPathUrl = (this.facadeImplPath + this.parentPackageName + this.form.facade.packageName).replace(/\./g, '\\')
+        this.dtoPathUrl = (this.facadeImplPath + this.parentPackageName + this.form.facade.packageName).replace(/\./g, '\\')
+        this.mainServicePathUrl = (this.form.mainService.path + this.parentPackageName + this.form.mainService.packageName).replace(/\./g, '\\')
+        this.mapperPathUrl = (this.form.mapper.path + this.parentPackageName + this.form.mapper.packageName).replace(/\./g, '\\')
+        this.xmlPathUrl = this.parentPackageName + this.xmlPath + 'mapper'
+        this.entityPathUrl = (this.form.entity.path + this.parentPackageName + this.form.entity.packageName).replace(/\./g, '\\')
       },
       handleTreeClickByImpl(data) {
         this.dialogTableImplVisible = false
@@ -1003,14 +1044,15 @@
         this.xmlPath = data.value + '\\src\\main\\resources\\'
         this.facadeImplPath = data.value + '\\src\\main\\java\\'
         this.myOptionItem.path = data.value + '\\src\\main\\java\\'
-        this.controllerPathUrl = this.form.controller.path + this.form.controller.packageName.replace(/\./g, '\\')
-        this.servicePathUrl = this.form.service.path + this.form.service.packageName.replace(/\./g, '\\')
-        this.facadePathUrl = this.form.facade.path + this.form.facade.packageName.replace(/\./g, '\\')
-        this.facadeImplPathUrl = this.facadeImplPath + this.form.facade.packageName.replace(/\./g, '\\')
-        this.mainServicePathUrl = this.form.mainService.path + this.form.mainService.packageName.replace(/\./g, '\\')
-        this.mapperPathUrl = this.form.mapper.path + this.form.mapper.packageName.replace(/\./g, '\\')
+        this.controllerPathUrl = (this.form.controller.path + this.parentPackageName + '.' + this.form.controller.packageName).replace(/\./g, '\\')
+        this.servicePathUrl = (this.form.service.path + this.parentPackageName + '.' + this.form.service.packageName).replace(/\./g, '\\')
+        this.facadePathUrl = (this.form.facade.path + this.parentPackageName + '.' + this.form.facade.packageName).replace(/\./g, '\\')
+        this.facadeImplPathUrl = (this.facadeImplPath + this.parentPackageName + '.' + this.form.facade.packageName).replace(/\./g, '\\')
+        this.mainServicePathUrl = (this.form.mainService.path + this.parentPackageName + '.' + this.form.mainService.packageName).replace(/\./g, '\\')
+        this.mapperPathUrl = (this.form.mapper.path + this.parentPackageName + '.' + this.form.mapper.packageName).replace(/\./g, '\\')
         this.xmlPathUrl = this.xmlPath + 'mapper'
-        this.entityPathUrl = this.form.entity.path + this.form.entity.packageName.replace(/\./g, '\\')
+        this.dtoPathUrl = (this.form.dto.path + this.parentPackageName + '.' + this.form.dto.packageName).replace(/\./g, '\\')
+        this.entityPathUrl = (this.form.entity.path + this.parentPackageName + '.' + this.form.entity.packageName).replace(/\./g, '\\')
       },
       handleTreeClick(data) {
         this.dialogTableVisible = false
@@ -1066,14 +1108,15 @@
           this.xmlPath = data.value + '\\src\\main\\resources\\'
         }
         this.myOptionItem.path = data.value + '\\src\\main\\java\\'
-        this.controllerPathUrl = this.form.controller.path + this.form.controller.packageName.replace(/\./g, '\\')
-        this.servicePathUrl = this.form.service.path + this.form.service.packageName.replace(/\./g, '\\')
-        this.facadePathUrl = this.form.facade.path + this.form.facade.packageName.replace(/\./g, '\\')
-        this.facadeImplPathUrl = this.facadeImplPath + this.form.facade.packageName.replace(/\./g, '\\')
-        this.mainServicePathUrl = this.form.mainService.path + this.form.mainService.packageName.replace(/\./g, '\\')
-        this.mapperPathUrl = this.form.mapper.path + this.form.mapper.packageName.replace(/\./g, '\\')
+        this.controllerPathUrl = (this.form.controller.path + this.parentPackageName + '.' + this.form.controller.packageName).replace(/\./g, '\\')
+        this.servicePathUrl = (this.form.service.path + this.parentPackageName + '.' + this.form.service.packageName).replace(/\./g, '\\')
+        this.facadePathUrl = (this.form.facade.path + this.parentPackageName + '.' + this.form.facade.packageName).replace(/\./g, '\\')
+        this.facadeImplPathUrl = (this.facadeImplPath + this.parentPackageName + '.' + this.form.facade.packageName).replace(/\./g, '\\')
+        this.mainServicePathUrl = (this.form.mainService.path + this.parentPackageName + '.' + this.form.mainService.packageName).replace(/\./g, '\\')
+        this.mapperPathUrl = (this.form.mapper.path + this.parentPackageName + '.' + this.form.mapper.packageName).replace(/\./g, '\\')
+        this.dtoPathUrl = (this.form.dto.path + this.parentPackageName + '.' + this.form.dto.packageName).replace(/\./g, '\\')
         this.xmlPathUrl = this.xmlPath + 'mapper'
-        this.entityPathUrl = this.form.entity.path + this.form.entity.packageName.replace(/\./g, '\\')
+        this.entityPathUrl = (this.form.entity.path + this.parentPackageName + '.' + this.form.entity.packageName).replace(/\./g, '\\')
       },
       loadNode(node, resolve) {
         if (node.level === 0) {
@@ -1217,6 +1260,7 @@
               encoding: 'utf-8',
               author: this.form.author,
               xmlPath: this.xmlPath,
+              parentPackageName: this.parentPackageName + '.',
               facadeImplPath: this.facadeImplPath,
               mapperName: this.form.mapper.name,
               primaryKey: this.form.entity.id,
@@ -1378,15 +1422,14 @@
             if (res.data.code === 0) {
               this.$message.error(res.data.msg[0].msgText);
             } else {
-              this.parentPackageName = 'com.minivision.sms.'
               const response = res.data.data
-              response.controller.packageName = this.parentPackageName + response.controller.packageName
-              response.mapper.packageName = this.parentPackageName + response.mapper.packageName
-              response.service.packageName = this.parentPackageName + response.service.packageName
-              response.dto.packageName = this.parentPackageName + response.dto.packageName
-              response.entity.packageName = this.parentPackageName + response.entity.packageName
-              response.mainService.packageName = this.parentPackageName + response.mainService.packageName
-              response.facade.packageName = this.parentPackageName + response.facade.packageName
+              response.controller.packageName = response.controller.packageName
+              response.mapper.packageName = response.mapper.packageName
+              response.service.packageName = response.service.packageName
+              response.dto.packageName = response.dto.packageName
+              response.entity.packageName = response.entity.packageName
+              response.mainService.packageName = response.mainService.packageName
+              response.facade.packageName = response.facade.packageName
               that.form.controller = response.controller
               that.form.mapper = response.mapper
               that.form.service = response.service
@@ -1416,14 +1459,14 @@
         this.form.mainService.packageName = this.form.mainService.packageName.replace(this.parentPackageName, newParentPackageName)
         this.form.facade.packageName = this.form.facade.packageName.replace(this.parentPackageName, newParentPackageName)
         this.parentPackageName = newParentPackageName
-        this.controllerPathUrl = this.form.controller.path + this.form.controller.packageName.replace(/\./g, '\\')
-        this.servicePathUrl = this.form.service.path + this.form.service.packageName.replace(/\./g, '\\')
-        this.facadePathUrl = this.form.facade.path + this.form.facade.packageName.replace(/\./g, '\\')
-        this.facadeImplPathUrl = this.facadeImplPath + this.form.facade.packageName.replace(/\./g, '\\')
-        this.mainServicePathUrl = this.form.mainService.path + this.form.mainService.packageName.replace(/\./g, '\\')
-        this.mapperPathUrl = this.form.mapper.path + this.form.mapper.packageName.replace(/\./g, '\\')
+        this.controllerPathUrl = (this.form.controller.path + this.parentPackageName + '.' + this.form.controller.packageName).replace(/\./g, '\\')
+        this.servicePathUrl = (this.form.service.path + this.parentPackageName + '.' + this.form.service.packageName).replace(/\./g, '\\')
+        this.facadePathUrl = (this.form.facade.path + this.parentPackageName + '.' + this.form.facade.packageName).replace(/\./g, '\\')
+        this.facadeImplPathUrl = (this.facadeImplPath + this.parentPackageName + '.' + this.form.facade.packageName).replace(/\./g, '\\')
+        this.mainServicePathUrl = (this.form.mainService.path + this.parentPackageName + '.' + this.form.mainService.packageName).replace(/\./g, '\\')
+        this.mapperPathUrl = (this.form.mapper.path + this.parentPackageName + '.' + this.form.mapper.packageName).replace(/\./g, '\\')
         this.xmlPathUrl = this.xmlPath + 'mapper'
-        this.entityPathUrl = this.form.entity.path + this.form.entity.packageName.replace(/\./g, '\\')
+        this.entityPathUrl = (this.form.entity.path + this.parentPackageName + '.' + this.form.entity.packageName).replace(/\./g, '\\')
       },
       handleClose(done) {
         this.loadConnection()
