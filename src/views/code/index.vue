@@ -589,10 +589,10 @@
         if (this.newParentPackageName == '') {
           callback(new Error('请完善包前缀信息'));
         } else {
-          var regex = /([`~!@#$%^&*()_\-+=<>?:"{}|,\/;'\\[\]·~！@#￥%……&*])/;
-          if(regex.test(this.newParentPackageName)) {
+          var regex = /(?![`~!@#$%^&*()_\-+=<>?:"{}|,\/;'\\[\]·~！@#￥%……&*])[a-z](?<!MV|MTV)$/;
+          if (!regex.test(this.newParentPackageName)) {
             callback(new Error('请输入正确的包前缀信息'));
-          }else {
+          } else {
             callback();
           }
         }
