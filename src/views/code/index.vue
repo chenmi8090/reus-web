@@ -278,7 +278,7 @@
                 <div slot="content">{{this.newParentPackageName + '\.' + this.form.controller.packageName}}</div>
                 <el-button>Controller类完整包名</el-button>
               </el-tooltip>
-              <el-tooltip placement="top">
+              <el-tooltip placement="top" effect="light">
                 <div slot="content">{{this.controllerPathUrl}}</div>
                 <el-button>Controller类完整路径</el-button>
               </el-tooltip>
@@ -315,7 +315,7 @@
                 <div slot="content">{{this.newParentPackageName + '\.' + this.form.service.packageName}}</div>
                 <el-button>Service类完整包名</el-button>
               </el-tooltip>
-              <el-tooltip placement="top">
+              <el-tooltip placement="top" effect="light">
                 <div slot="content">{{this.servicePathUrl}}</div>
                 <el-button>Service类完整路径</el-button>
               </el-tooltip>
@@ -352,7 +352,7 @@
                 <div slot="content">{{this.newParentPackageName + '\.' + this.form.facade.packageName}}</div>
                 <el-button>Facade接口类完整包名</el-button>
               </el-tooltip>
-              <el-tooltip placement="top">
+              <el-tooltip placement="top" effect="light">
                 <div slot="content">{{this.facadePathUrl}}</div>
                 <el-button>Facade接口类完整路径</el-button>
               </el-tooltip>
@@ -370,7 +370,7 @@
                 <div slot="content">{{this.newParentPackageName + '\.' + this.form.facade.packageName}}</div>
                 <el-button>Facade实现类完整包名</el-button>
               </el-tooltip>
-              <el-tooltip placement="top">
+              <el-tooltip placement="top" effect="light">
                 <div slot="content">{{this.facadeImplPathUrl}}</div>
                 <el-button>Facade实现类完整路径</el-button>
               </el-tooltip>
@@ -407,7 +407,7 @@
                 <div slot="content">{{this.newParentPackageName + '\.' + this.form.dto.packageName}}</div>
                 <el-button>DTO类完整包名</el-button>
               </el-tooltip>
-              <el-tooltip placement="top">
+              <el-tooltip placement="top" effect="light">
                 <div slot="content">{{this.dtoPathUrl}}</div>
                 <el-button>DTO类完整路径</el-button>
               </el-tooltip>
@@ -445,7 +445,7 @@
                 <div slot="content">{{this.newParentPackageName + '\.' + this.form.mainService.packageName}}</div>
                 <el-button>MainService类完整包名</el-button>
               </el-tooltip>
-              <el-tooltip placement="top">
+              <el-tooltip placement="top" effect="light">
                 <div slot="content">{{this.mainServicePathUrl}}</div>
                 <el-button>MainService类完整路径</el-button>
               </el-tooltip>
@@ -487,7 +487,7 @@
                 <div slot="content">{{this.newParentPackageName + '\.' + this.form.mapper.packageName}}</div>
                 <el-button>Mapper类完整包名</el-button>
               </el-tooltip>
-              <el-tooltip placement="top">
+              <el-tooltip placement="top" effect="light">
                 <div slot="content">{{this.mapperPathUrl}}</div>
                 <el-button>Mapper类完整路径</el-button>
               </el-tooltip>
@@ -537,7 +537,7 @@
                 <div slot="content">{{this.newParentPackageName + '\.' + this.form.entity.packageName}}</div>
                 <el-button>Entity类完整包名</el-button>
               </el-tooltip>
-              <el-tooltip placement="top">
+              <el-tooltip placement="top" effect="light">
                 <div slot="content">{{this.entityPathUrl}}</div>
                 <el-button>Entity类完整路径</el-button>
               </el-tooltip>
@@ -589,7 +589,12 @@
         if (this.newParentPackageName == '') {
           callback(new Error('请完善包前缀信息'));
         } else {
-          callback();
+          var regex = /([`~!@#$%^&*()_\-+=<>?:"{}|,\/;'\\[\]·~！@#￥%……&*])/;
+          if(regex.test(this.newParentPackageName)) {
+            callback(new Error('请输入正确的包前缀信息'));
+          }else {
+            callback();
+          }
         }
       };
       var controllerPath = (rule, value, callback) => {
@@ -908,7 +913,7 @@
         entityPathUrl: '',
         rules: {
           parentPackage: [
-            {validator: parentPackage, trigger: 'change'}
+            {validator: parentPackage, trigger: 'change'},
           ],
           controllerPath: [
             {validator: controllerPath, trigger: 'change'}
@@ -1451,22 +1456,27 @@
           })
       },
       onSubmit(newParentPackageName) {
-        this.form.controller.packageName = this.form.controller.packageName.replace(this.parentPackageName, newParentPackageName)
-        this.form.mapper.packageName = this.form.mapper.packageName.replace(this.parentPackageName, newParentPackageName)
-        this.form.service.packageName = this.form.service.packageName.replace(this.parentPackageName, newParentPackageName)
-        this.form.dto.packageName = this.form.dto.packageName.replace(this.parentPackageName, newParentPackageName)
-        this.form.entity.packageName = this.form.entity.packageName.replace(this.parentPackageName, newParentPackageName)
-        this.form.mainService.packageName = this.form.mainService.packageName.replace(this.parentPackageName, newParentPackageName)
-        this.form.facade.packageName = this.form.facade.packageName.replace(this.parentPackageName, newParentPackageName)
-        this.parentPackageName = newParentPackageName
-        this.controllerPathUrl = (this.form.controller.path + this.parentPackageName + '.' + this.form.controller.packageName).replace(/\./g, '\\')
-        this.servicePathUrl = (this.form.service.path + this.parentPackageName + '.' + this.form.service.packageName).replace(/\./g, '\\')
-        this.facadePathUrl = (this.form.facade.path + this.parentPackageName + '.' + this.form.facade.packageName).replace(/\./g, '\\')
-        this.facadeImplPathUrl = (this.facadeImplPath + this.parentPackageName + '.' + this.form.facade.packageName).replace(/\./g, '\\')
-        this.mainServicePathUrl = (this.form.mainService.path + this.parentPackageName + '.' + this.form.mainService.packageName).replace(/\./g, '\\')
-        this.mapperPathUrl = (this.form.mapper.path + this.parentPackageName + '.' + this.form.mapper.packageName).replace(/\./g, '\\')
-        this.xmlPathUrl = this.xmlPath + 'mapper'
-        this.entityPathUrl = (this.form.entity.path + this.parentPackageName + '.' + this.form.entity.packageName).replace(/\./g, '\\')
+        if (newParentPackageName === '') {
+          this.$message.error('包前缀不允许为空！');
+          return false;
+        } else {
+          this.form.controller.packageName = this.form.controller.packageName.replace(this.parentPackageName, newParentPackageName)
+          this.form.mapper.packageName = this.form.mapper.packageName.replace(this.parentPackageName, newParentPackageName)
+          this.form.service.packageName = this.form.service.packageName.replace(this.parentPackageName, newParentPackageName)
+          this.form.dto.packageName = this.form.dto.packageName.replace(this.parentPackageName, newParentPackageName)
+          this.form.entity.packageName = this.form.entity.packageName.replace(this.parentPackageName, newParentPackageName)
+          this.form.mainService.packageName = this.form.mainService.packageName.replace(this.parentPackageName, newParentPackageName)
+          this.form.facade.packageName = this.form.facade.packageName.replace(this.parentPackageName, newParentPackageName)
+          this.parentPackageName = newParentPackageName
+          this.controllerPathUrl = (this.form.controller.path + this.parentPackageName + '.' + this.form.controller.packageName).replace(/\./g, '\\')
+          this.servicePathUrl = (this.form.service.path + this.parentPackageName + '.' + this.form.service.packageName).replace(/\./g, '\\')
+          this.facadePathUrl = (this.form.facade.path + this.parentPackageName + '.' + this.form.facade.packageName).replace(/\./g, '\\')
+          this.facadeImplPathUrl = (this.facadeImplPath + this.parentPackageName + '.' + this.form.facade.packageName).replace(/\./g, '\\')
+          this.mainServicePathUrl = (this.form.mainService.path + this.parentPackageName + '.' + this.form.mainService.packageName).replace(/\./g, '\\')
+          this.mapperPathUrl = (this.form.mapper.path + this.parentPackageName + '.' + this.form.mapper.packageName).replace(/\./g, '\\')
+          this.xmlPathUrl = this.xmlPath + 'mapper'
+          this.entityPathUrl = (this.form.entity.path + this.parentPackageName + '.' + this.form.entity.packageName).replace(/\./g, '\\')
+        }
       },
       handleClose(done) {
         this.loadConnection()
