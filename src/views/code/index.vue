@@ -587,11 +587,11 @@
     data() {
       var parentPackage = (rule, value, callback) => {
         if (this.newParentPackageName == '') {
-          callback(new Error('请完善包前缀信息'));
+          callback(new Error('请填写包前缀信息'));
         } else {
           var regex = /(?![`~!@#$%^&*()_\-+=<>?:"{}|,\/;'\\[\]·~！@#￥%……&*])[a-z](?<!MV|MTV)$/;
           if (!regex.test(this.newParentPackageName)) {
-            callback(new Error('请输入正确的包前缀信息'));
+            callback(new Error('前缀不允许出现特殊字符且必须以字母结尾'));
           } else {
             callback();
           }
